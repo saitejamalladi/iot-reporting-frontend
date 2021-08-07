@@ -1,4 +1,5 @@
-# AWS-WEB-REPORTS
+# AWS-IOT-REPORTING-FRONTEND-CODE
+
 # Material App Pro - React Admin & Dashboard Template
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
