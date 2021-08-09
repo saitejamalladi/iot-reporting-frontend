@@ -68,8 +68,8 @@ function ImageAvatars() {
         </Typography>
 
         <Grid container justify="center" alignItems="center">
-          <Avatar alt="Remy Sharp" src="/static/img/avatars/avatar-1.jpg" />
-          <BigAvatar alt="Remy Sharp" src="/static/img/avatars/avatar-1.jpg" />
+          <Avatar alt="Sai Teja" src="/static/img/avatars/sai.jpg" />
+          <BigAvatar alt="Sai Teja" src="/static/img/avatars/sai.jpg" />
         </Grid>
       </CardContent>
     </Card>

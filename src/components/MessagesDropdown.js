@@ -98,9 +98,9 @@ function MessagesDropdown() {
         <React.Fragment>
           <List disablePadding>
             <Message
-              title="Lucy Lavender"
+              title="Sai Teja"
               description="Nam pretium turpis et arcu. Duis arcu tortor."
-              image="/static/img/avatars/avatar-1.jpg"
+              image="/static/img/avatars/sai.jpg"
             />
             <Message
               title="Remy Sharp"

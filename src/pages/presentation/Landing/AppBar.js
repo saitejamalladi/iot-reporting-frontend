@@ -53,7 +53,7 @@ const AppBarComponent = () => (
                   ml={2}
                   color="inherit"
                   component={Link}
-                  to="/dashboard/analytics"
+                  to="/pages/profile"
                   target="_blank"
                 >
                   Live Preview

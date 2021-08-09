@@ -79,10 +79,7 @@ function Public() {
           </Grid>
           <Grid item md={4}>
             <CenteredContent>
-              <BigAvatar
-                alt="Remy Sharp"
-                src="/static/img/avatars/avatar-1.jpg"
-              />
+              <BigAvatar alt="Sai Teja" src="/static/img/avatars/sai.jpg" />
               <input
                 accept="image/*"
                 style={{ display: "none" }}

@@ -3,7 +3,6 @@ import styled from "styled-components/macro";
 
 import {
   Grid,
-  Hidden,
   List,
   ListItemText as MuiListItemText,
   ListItem as MuiListItem,
@@ -38,30 +37,19 @@ function Footer() {
   return (
     <Wrapper>
       <Grid container spacing={0}>
-        <Hidden smDown>
-          <Grid container item xs={12} md={6}>
-            <List>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Support" />
-              </ListItem>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Help Center" />
-              </ListItem>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Privacy" />
-              </ListItem>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Terms of Service" />
-              </ListItem>
-            </List>
-          </Grid>
-        </Hidden>
-        <Grid container item xs={12} md={6} justify="flex-end">
+        <Grid container item xs={12} md={6}>
           <List>
             <ListItem button={true}>
               <ListItemText
-                primary={`© ${new Date().getFullYear()} - Material App`}
+                primary={`Copyright © ${new Date().getFullYear()} - IOT MANAGEMENT GROUP. All rights reserved.`}
               />
+            </ListItem>
+          </List>
+        </Grid>
+        <Grid container item xs={12} md={6} justify="flex-end">
+          <List>
+            <ListItem button={true}>
+              <ListItemText primary={`Version 1.0.0`} />
             </ListItem>
           </List>
         </Grid>

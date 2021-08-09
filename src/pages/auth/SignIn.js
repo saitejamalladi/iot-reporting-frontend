@@ -45,10 +45,10 @@ function SignIn() {
   return (
     <Wrapper>
       <Helmet title="Sign In" />
-      <BigAvatar alt="Lucy" src="/static/img/avatars/avatar-1.jpg" />
+      <BigAvatar alt="Sai" src="/static/img/avatars/sai.jpg" />
 
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Welcome back, Lucy!
+        Welcome back, Sai!
       </Typography>
       <Typography component="h2" variant="body1" align="center">
         Sign in to your account to continue
@@ -56,8 +56,8 @@ function SignIn() {
 
       <Formik
         initialValues={{
-          email: "demo@bootlab.io",
-          password: "unsafepassword",
+          email: "saiteja.malladi@gmail.com",
+          password: "Idm@1234",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
@@ -92,10 +92,6 @@ function SignIn() {
           values,
         }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <Alert mt={3} mb={1} severity="info">
-              Use <strong>demo@bootlab.io</strong> and{" "}
-              <strong>unsafepassword</strong> to sign in
-            </Alert>
             {errors.submit && (
               <Alert mt={2} mb={1} severity="warning">
                 {errors.submit}

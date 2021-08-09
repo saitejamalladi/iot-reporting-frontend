@@ -116,7 +116,7 @@ function ChatMessageComponent({
   return (
     <ChatMessage position={position}>
       <ChatMessageInner>
-        <ChatMessageAvatar alt="Lucy Lavender" src={avatar} />
+        <ChatMessageAvatar alt="Sai Teja" src={avatar} />
         <ChatMessageBubble highlighted={position === "right"}>
           <Box>
             <ChatMessageBubbleName variant="body1">
@@ -152,10 +152,7 @@ function ChatWindow() {
                 }}
                 variant="dot"
               >
-                <Avatar
-                  alt="Lucy Lavender"
-                  src="/static/img/avatars/avatar-1.jpg"
-                />
+                <Avatar alt="Sai Teja" src="/static/img/avatars/sai.jpg" />
               </Online>
             </ListItemIcon>
             <ListItemText primary="Lucy Lavender" secondary="Sent a photo" />
@@ -200,7 +197,7 @@ function ChatWindow() {
           />
           <ChatMessageComponent
             name="You"
-            avatar="/static/img/avatars/avatar-1.jpg"
+            avatar="/static/img/avatars/sai.jpg"
             message="Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te vix."
             time="12 minutes ago"
             position="right"
@@ -214,7 +211,7 @@ function ChatWindow() {
           />
           <ChatMessageComponent
             name="You"
-            avatar="/static/img/avatars/avatar-1.jpg"
+            avatar="/static/img/avatars/sai.jpg"
             message="Cras pulvinar, sapien id vehicula aliquet, diam velit elementum orci. 👍"
             time="5 minutes ago"
             position="right"

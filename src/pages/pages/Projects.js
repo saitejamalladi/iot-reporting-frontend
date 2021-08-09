@@ -70,7 +70,7 @@ function Project({ image, title, description, chip }) {
         </Typography>
 
         <AvatarGroup max={3}>
-          <Avatar alt="Avatar" src="/static/img/avatars/avatar-1.jpg" />
+          <Avatar alt="Avatar" src="/static/img/avatars/sai.jpg" />
           <Avatar alt="Avatar" src="/static/img/avatars/avatar-2.jpg" />
           <Avatar alt="Avatar" src="/static/img/avatars/avatar-3.jpg" />
         </AvatarGroup>

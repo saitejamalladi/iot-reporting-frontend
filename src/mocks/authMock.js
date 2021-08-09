@@ -1,15 +1,15 @@
 import mock from "../utils/mock";
 
 const userData = {
-  id: "12345",
-  email: "demo@bootlab.io",
-  name: "Lucy Lavender",
+  id: "1",
+  email: "saiteja.malladi@gmail.com",
+  name: "Sai Teja Malladi",
 };
 
 mock.onPost("/api/auth/sign-in").reply((config) => {
   const { email, password } = JSON.parse(config.data);
 
-  if (email === "demo@bootlab.io" && password === "unsafepassword") {
+  if (email === "saiteja.malladi@gmail.com" && password === "Idm@1234") {
     return [200, userData];
   }
 

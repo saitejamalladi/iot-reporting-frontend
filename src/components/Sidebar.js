@@ -6,11 +6,8 @@ import { darken } from "polished";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "../vendor/perfect-scrollbar.css";
 
-import { spacing } from "@material-ui/system";
-
 import {
   Badge,
-  Box as MuiBox,
   Chip,
   Grid,
   Avatar,
@@ -24,13 +21,7 @@ import {
 
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
-import { green } from "@material-ui/core/colors";
-
 import { sidebarRoutes as routes } from "../routes/index";
-
-import { ReactComponent as Logo } from "../vendor/logo.svg";
-
-const Box = styled(MuiBox)(spacing);
 
 const Drawer = styled(MuiDrawer)`
   border-right: 0;
@@ -75,28 +66,11 @@ const Brand = styled(ListItem)`
   }
 `;
 
-const BrandIcon = styled(Logo)`
+const BrandImage = styled.img`
+  max-width: 70px;
   margin-right: ${(props) => props.theme.spacing(2)}px;
-  color: ${(props) => props.theme.sidebar.header.brand.color};
-  fill: ${(props) => props.theme.sidebar.header.brand.color};
-  width: 32px;
-  height: 32px;
-`;
-
-const BrandChip = styled(Chip)`
-  background-color: ${green[700]};
-  border-radius: 5px;
-  color: ${(props) => props.theme.palette.common.white};
-  font-size: 55%;
-  height: 18px;
-  margin-left: 2px;
-  margin-top: -16px;
-  padding: 3px 0;
-
-  span {
-    padding-left: ${(props) => props.theme.spacing(1.375)}px;
-    padding-right: ${(props) => props.theme.spacing(1.375)}px;
-  }
+  height: auto;
+  display: block;
 `;
 
 const Category = styled(ListItem)`
@@ -269,7 +243,7 @@ const SidebarCategory = ({
   );
 };
 
-const SidebarLink = ({ name, to, badge, icon }) => {
+const SidebarLink = ({ name, to, badge }) => {
   return (
     <Link
       button
@@ -326,10 +300,12 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
   return (
     <Drawer variant="permanent" {...rest}>
       <Brand component={NavLink} to="/" button>
-        <BrandIcon />{" "}
-        <Box ml={1}>
-          Material App <BrandChip label="PRO" />
-        </Box>
+        {/*<BrandIcon />{" "}*/}
+        <BrandImage
+          alt={`React Admin Template`}
+          src={`/static/img/brands/iot-brand-logo.jpg`}
+        />{" "}
+        Super Admin
       </Brand>
       <Scrollbar>
         <List disablePadding>
@@ -397,15 +373,15 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
               variant="dot"
             >
               <Avatar
-                alt="Lucy Lavender"
-                src="/static/img/avatars/avatar-1.jpg"
+                alt="Sai Teja Malladi"
+                src="/static/img/avatars/sai.jpg"
               />
             </SidebarFooterBadge>
           </Grid>
           <Grid item>
-            <SidebarFooterText variant="body2">Lucy Lavender</SidebarFooterText>
+            <SidebarFooterText variant="body2">Sai Teja</SidebarFooterText>
             <SidebarFooterSubText variant="caption">
-              UX Designer
+              Full Stack
             </SidebarFooterSubText>
           </Grid>
         </Grid>

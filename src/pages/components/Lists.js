@@ -198,7 +198,6 @@ function FolderList() {
           Lists are a continuous group of text or images.
         </Typography>
       </CardContent>
-
       <List>
         <ListItemNotButton>
           <Avatar mr={3}>

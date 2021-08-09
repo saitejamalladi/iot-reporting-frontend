@@ -120,7 +120,7 @@ function Details() {
         <Spacer mb={4} />
 
         <Centered>
-          <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-1.jpg" />
+          <Avatar alt="Sai Teja" src="/static/img/avatars/sai.jpg" />
           <Typography variant="body2" component="div" gutterBottom>
             <Box fontWeight="fontWeightMedium">Lucy Lavender</Box>
             <Box fontWeight="fontWeightRegular">Lead Developer</Box>

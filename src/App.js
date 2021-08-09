@@ -27,10 +27,7 @@ function App() {
   return (
     <React.Fragment>
       <HelmetProvider>
-        <Helmet
-          titleTemplate="%s | Material App"
-          defaultTitle="Material App - React Admin & Dashboard Template"
-        />
+        <Helmet titleTemplate="%s | IOT Sensor" defaultTitle="IOT Sensor" />
         <StylesProvider jss={jss}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <MuiThemeProvider theme={createTheme(theme.currentTheme)}>
