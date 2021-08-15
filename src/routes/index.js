@@ -3,10 +3,7 @@ import React from "react";
 
 import async from "../components/Async";
 
-import { Layout, Monitor, Sliders, Users } from "react-feather";
-
-// All pages that rely on 3rd party components (other than Material-UI) are
-// loaded asynchronously, to keep the initial JS bundle to a minimum size
+import { Layout, Monitor, Users } from "react-feather";
 
 // Guards
 import AuthGuard from "../components/AuthGuard";
@@ -17,11 +14,6 @@ import SignUp from "../pages/auth/SignUp";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Page404 from "../pages/auth/Page404";
 import Page500 from "../pages/auth/Page500";
-
-// Dashboards components
-const Default = async(() => import("../pages/dashboards/Default"));
-const Analytics = async(() => import("../pages/dashboards/Analytics"));
-const SaaS = async(() => import("../pages/dashboards/SaaS"));
 
 // Account components
 import {
@@ -35,7 +27,6 @@ import {
 } from "@material-ui/icons";
 
 // Pages components
-import Orders from "../pages/pages/Orders";
 import Accounts from "../pages/pages/Accounts";
 import Settings from "../pages/pages/Settings";
 const Profile = async(() => import("../pages/pages/Profile"));
@@ -119,7 +110,7 @@ const pagesRoutes = {
 
 const accountRoutes = {
   id: "Accounts",
-  path: "/orders",
+  path: "/accounts",
   icon: <AccountCircle />,
   component: Accounts,
   children: null,
@@ -129,7 +120,7 @@ const userRoutes = {
   id: "Users",
   path: "/users",
   icon: <People />,
-  component: Orders,
+  component: Accounts,
   children: null,
 };
 
@@ -137,7 +128,7 @@ const roleRoutes = {
   id: "Roles",
   path: "/roles",
   icon: <AssignmentInd />,
-  component: Orders,
+  component: Accounts,
   children: null,
 };
 
@@ -145,7 +136,7 @@ const reportRoutes = {
   id: "Reports",
   path: "/reports",
   icon: <Assessment />,
-  component: Orders,
+  component: Accounts,
   children: null,
 };
 
@@ -153,7 +144,7 @@ const scaleRoutes = {
   id: "Scales",
   path: "/scales",
   icon: <AspectRatio />,
-  component: Orders,
+  component: Accounts,
   children: null,
 };
 
@@ -161,7 +152,7 @@ const sensorRoutes = {
   id: "Sensors",
   path: "/sensors",
   icon: <CastConnected />,
-  component: Orders,
+  component: Accounts,
   children: null,
 };
 
@@ -169,39 +160,8 @@ const mealCountRoutes = {
   id: "Meal Count",
   path: "/meal-count",
   icon: <Fastfood />,
-  component: Orders,
+  component: Accounts,
   children: null,
-};
-
-const publicRoutes = {
-  id: "Public",
-  path: "/public",
-  icon: <Sliders />,
-  header: "Public",
-  containsHome: true,
-  children: [
-    {
-      path: "/public/scales",
-      name: "Scales",
-      component: Default,
-    },
-    {
-      path: "/public/sensors",
-      name: "Sensors",
-      component: Analytics,
-    },
-    {
-      path: "/public/meal-count",
-      name: "Meal Count",
-      component: SaaS,
-    },
-    {
-      path: "/public/site",
-      name: "Site",
-      component: Default,
-    },
-  ],
-  component: null,
 };
 
 // Routes using the Dashboard layout
@@ -214,7 +174,6 @@ export const dashboardLayoutRoutes = [
   sensorRoutes,
   mealCountRoutes,
   pagesRoutes,
-  publicRoutes,
 ];
 
 // Routes using the Auth layout
@@ -236,5 +195,4 @@ export const sidebarRoutes = [
   sensorRoutes,
   mealCountRoutes,
   pagesRoutes,
-  publicRoutes,
 ];
