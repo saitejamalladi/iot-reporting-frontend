@@ -2,7 +2,7 @@
 import React from "react";
 import async from "../components/Async";
 
-import { Monitor, Users } from "react-feather";
+import { Monitor, Users as UsersIcon } from "react-feather";
 
 // Guards
 import AuthGuard from "../components/AuthGuard";
@@ -15,18 +15,32 @@ import Page404 from "../pages/auth/Page404";
 import Page500 from "../pages/auth/Page500";
 
 // Account components
+import Accounts from "../pages/pages/Accounts";
 import {
-  AccountCircle,
-  Assessment,
-  AssignmentInd,
-  AspectRatio,
-  CastConnected,
-  Fastfood,
-  People,
+  AccountCircle as AccountCircleIcon,
+  AssignmentInd as AssignmentIndIcon,
+  AspectRatio as AspectRatioIcon,
+  CastConnected as CastConnectedIcon,
+  Fastfood as FastfoodIcon,
+  People as PeopleIcon,
 } from "@material-ui/icons";
 
+// User components
+import Users from "../pages/pages/Users";
+
+// Sensor components
+import Sensors from "../pages/pages/Sensors";
+
+// Role components
+import Roles from "../pages/pages/Roles";
+
+// Scales components
+import Scales from "../pages/pages/Scales";
+
+// Meal Count components
+import MealCount from "../pages/pages/MealCount";
+
 // Pages components
-import Accounts from "../pages/pages/Accounts";
 const Profile = async(() => import("../pages/pages/Profile"));
 
 // Landing
@@ -56,7 +70,7 @@ const landingRoutes = {
 const authRoutes = {
   id: "Auth",
   path: "/auth",
-  icon: <Users />,
+  icon: <UsersIcon />,
   children: [
     {
       path: "/auth/sign-in",
@@ -87,29 +101,18 @@ const authRoutes = {
   component: null,
 };
 
-// const pagesRoutes = {
-//   id: "Pages",
-//   path: "/pages",
-//   icon: <Layout />,
-//   children: [
-//     {
-//       path: "/pages/profile",
-//       name: "Profile",
-//       component: Profile,
-//     },
-//     {
-//       path: "/pages/settings",
-//       name: "Settings",
-//       component: Settings,
-//     },
-//   ],
-//   component: null,
-// };
+const profileRoutes = {
+  id: "Profile",
+  path: "/profile",
+  icon: <PeopleIcon />,
+  component: Profile,
+  children: null,
+};
 
 const accountRoutes = {
   id: "Accounts",
   path: "/accounts",
-  icon: <AccountCircle />,
+  icon: <AccountCircleIcon />,
   component: Accounts,
   children: null,
 };
@@ -117,18 +120,11 @@ const accountRoutes = {
 const userRoutes = {
   id: "Users",
   path: "/users",
-  icon: <People />,
-  component: Accounts,
+  icon: <PeopleIcon />,
+  component: Users,
   children: null,
 };
 
-const profileRoutes = {
-  id: "Profile",
-  path: "/profile",
-  icon: <People />,
-  component: Profile,
-  children: null,
-};
 // const permissionRoutes = {
 //   id: "Permissions",
 //   path: "/permissions",
@@ -140,40 +136,32 @@ const profileRoutes = {
 const roleRoutes = {
   id: "Roles",
   path: "/roles",
-  icon: <AssignmentInd />,
-  component: Accounts,
-  children: null,
-};
-
-const reportRoutes = {
-  id: "Reports",
-  path: "/reports",
-  icon: <Assessment />,
-  component: Accounts,
+  icon: <AssignmentIndIcon />,
+  component: Roles,
   children: null,
 };
 
 const scaleRoutes = {
   id: "Scales",
   path: "/scales",
-  icon: <AspectRatio />,
-  component: Accounts,
+  icon: <AspectRatioIcon />,
+  component: Scales,
   children: null,
 };
 
 const sensorRoutes = {
   id: "Sensors",
   path: "/sensors",
-  icon: <CastConnected />,
-  component: Accounts,
+  icon: <CastConnectedIcon />,
+  component: Sensors,
   children: null,
 };
 
 const mealCountRoutes = {
   id: "Meal Count",
   path: "/meal-count",
-  icon: <Fastfood />,
-  component: Accounts,
+  icon: <FastfoodIcon />,
+  component: MealCount,
   children: null,
 };
 
@@ -182,7 +170,6 @@ export const dashboardLayoutRoutes = [
   accountRoutes,
   userRoutes,
   roleRoutes,
-  reportRoutes,
   scaleRoutes,
   sensorRoutes,
   mealCountRoutes,
@@ -203,9 +190,7 @@ export const sidebarRoutes = [
   accountRoutes,
   userRoutes,
   roleRoutes,
-  reportRoutes,
   scaleRoutes,
   sensorRoutes,
   mealCountRoutes,
-  profileRoutes,
 ];

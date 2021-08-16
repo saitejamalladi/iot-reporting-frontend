@@ -28,6 +28,14 @@ const Wrapper = styled(Paper)`
   }
 `;
 
+const BrandTitle = styled(Typography)`
+  text-transform: uppercase;
+  color: orange;
+  font-size: 24px;
+  text-align: center;
+  font-weight: ${(props) => props.theme.typography.fontWeightBold};
+`;
+
 function SignUp() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -36,11 +44,14 @@ function SignUp() {
     <Wrapper>
       <Helmet title="Sign Up" />
 
+      <BrandTitle variant="body1" gutterBottom>
+        IOT Management Group
+      </BrandTitle>
       <Typography component="h1" variant="h4" align="center" gutterBottom>
         Get started
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        Start creating the best possible user experience for you customers
+        Register a new Super Admin
       </Typography>
 
       <Formik
@@ -50,6 +61,7 @@ function SignUp() {
           email: "",
           password: "",
           confirmPassword: "",
+          address: "",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
@@ -78,6 +90,7 @@ function SignUp() {
                 company: "test",
                 email: values.email,
                 password: values.password,
+                address: values.address,
               })
             );
             history.push("/auth/sign-in");
@@ -161,6 +174,18 @@ function SignUp() {
               error={Boolean(touched.confirmPassword && errors.confirmPassword)}
               fullWidth
               helperText={touched.confirmPassword && errors.confirmPassword}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              my={3}
+            />
+            <TextField
+              type="text"
+              name="address"
+              label="Address"
+              value={values.address}
+              error={Boolean(touched.address && errors.address)}
+              fullWidth
+              helperText={touched.address && errors.address}
               onBlur={handleBlur}
               onChange={handleChange}
               my={3}
