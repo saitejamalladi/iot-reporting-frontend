@@ -1,4 +1,4 @@
-# AWS-IOT-REPORTING-FRONTEND-CODE
+# IOT-REPORTING-FRONTEND
 
 # Material App Pro - React Admin & Dashboard Template
 
