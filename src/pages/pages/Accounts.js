@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet-async";
 
 import {
   Box,
-  Button,
   Divider as MuiDivider,
   Grid,
   IconButton,
@@ -18,17 +17,10 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  Toolbar,
-  Tooltip,
   Typography,
 } from "@material-ui/core";
 
-import {
-  Add as AddIcon,
-  Archive as ArchiveIcon,
-  FilterList as FilterListIcon,
-  RemoveRedEye as RemoveRedEyeIcon,
-} from "@material-ui/icons";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
 
@@ -36,12 +28,10 @@ const Divider = styled(MuiDivider)(spacing);
 
 const Paper = styled(MuiPaper)(spacing);
 
-const Spacer = styled.div`
-  flex: 1 1 100%;
-`;
-
-const ToolbarTitle = styled.div`
-  min-width: 150px;
+const CustomTableRow = styled(TableRow)`
+  &:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.025);
+  }
 `;
 
 function createData(id, full_name, email_id, user_name, role, created_date) {
@@ -197,42 +187,6 @@ function EnhancedTableHead(props) {
   );
 }
 
-let EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar>
-      <ToolbarTitle>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography variant="h6" id="tableTitle">
-            Accounts
-          </Typography>
-        )}
-      </ToolbarTitle>
-      <Spacer />
-      <div>
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <ArchiveIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
-    </Toolbar>
-  );
-};
-
 function EnhancedTable() {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("customer");
@@ -255,26 +209,6 @@ function EnhancedTable() {
     setSelected([]);
   };
 
-  // const handleClick = (event, id) => {
-  //   const selectedIndex = selected.indexOf(id);
-  //   let newSelected = [];
-  //
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, id);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1)
-  //     );
-  //   }
-  //
-  //   setSelected(newSelected);
-  // };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -284,15 +218,12 @@ function EnhancedTable() {
     setPage(0);
   };
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
-
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <div>
       <Paper>
-        <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             aria-labelledby="tableTitle"
@@ -311,16 +242,12 @@ function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-
                   return (
-                    <TableRow
+                    <CustomTableRow
                       hover
                       role="checkbox"
-                      aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={`${row.id}-${index}`}
-                      selected={isItemSelected}
                     >
                       <TableCell align="right">{row.id}</TableCell>
                       <TableCell align="left">{row.full_name}</TableCell>
@@ -330,15 +257,15 @@ function EnhancedTable() {
                       <TableCell align="left">{row.created_date}</TableCell>
                       <TableCell padding="none" align="right">
                         <Box mr={2}>
-                          <IconButton aria-label="delete">
-                            <ArchiveIcon />
+                          <IconButton aria-label="edit">
+                            <EditIcon />
                           </IconButton>
-                          <IconButton aria-label="details">
-                            <RemoveRedEyeIcon />
+                          <IconButton aria-label="delete">
+                            <DeleteIcon />
                           </IconButton>
                         </Box>
                       </TableCell>
-                    </TableRow>
+                    </CustomTableRow>
                   );
                 })}
               {emptyRows > 0 && (
@@ -367,25 +294,14 @@ function AccountList() {
   return (
     <React.Fragment>
       <Helmet title="Accounts" />
-
       <Grid justify="space-between" container spacing={24}>
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
             Accounts
           </Typography>
         </Grid>
-        <Grid item>
-          <div>
-            <Button variant="contained" color="primary">
-              <AddIcon />
-              New Order
-            </Button>
-          </div>
-        </Grid>
       </Grid>
-
       <Divider my={6} />
-
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <EnhancedTable />

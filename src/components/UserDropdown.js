@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { Power } from "react-feather";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -9,6 +8,7 @@ import {
   Menu,
   MenuItem,
   IconButton as MuiIconButton,
+  Typography,
 } from "@material-ui/core";
 
 import { signOut } from "../redux/actions/authActions";
@@ -18,6 +18,23 @@ const IconButton = styled(MuiIconButton)`
     width: 22px;
     height: 22px;
   }
+  
+  &:hover {
+    border-radius: 3px;
+  },
+`;
+
+const ProfileName = styled(Typography)`
+  color: ${(props) => props.theme.sidebar.color.black};
+  font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+  margin-right: ${(props) => props.theme.spacing(2)}px;
+  padding-right: ${(props) => props.theme.spacing(2)}px;
+  border-right: 1px solid ${(props) => props.theme.palette.divider};
+`;
+
+const ProfileRole = styled(Typography)`
+  color: ${(props) => props.theme.sidebar.color.black};
+  font-size: 0.7rem;
 `;
 
 function UserDropdown() {
@@ -31,6 +48,11 @@ function UserDropdown() {
 
   const closeMenu = () => {
     setAnchorMenu(null);
+  };
+
+  const handleProfile = async () => {
+    closeMenu();
+    history.push("/profile");
   };
 
   const handleSignOut = async () => {
@@ -47,7 +69,8 @@ function UserDropdown() {
           onClick={toggleMenu}
           color="inherit"
         >
-          <Power />
+          <ProfileName>Sai Teja</ProfileName>
+          <ProfileRole>Super Admin</ProfileRole>
         </IconButton>
       </Tooltip>
       <Menu
@@ -56,7 +79,7 @@ function UserDropdown() {
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
       >
-        <MenuItem onClick={closeMenu}>Profile</MenuItem>
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
         <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
       </Menu>
     </React.Fragment>

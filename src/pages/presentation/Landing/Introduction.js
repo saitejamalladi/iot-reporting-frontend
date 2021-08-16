@@ -188,7 +188,7 @@ function Introduction() {
         <Grid container alignItems="center" justify="center" spacing={4}>
           <Grid item xs={12} sm={10} md={9} lg={9}>
             <ImageWrapper>
-              <NavLink to="/pages/profile" target="_blank">
+              <NavLink to="/users" target="_blank">
                 <Image
                   alt="Material App - React Admin Template"
                   src={`/static/img/screenshots/dashboard-analytics-large.jpg`}

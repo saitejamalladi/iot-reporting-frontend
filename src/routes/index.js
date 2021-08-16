@@ -1,9 +1,8 @@
 /* eslint-disable import/first */
 import React from "react";
-
 import async from "../components/Async";
 
-import { Layout, Monitor, Users } from "react-feather";
+import { Monitor, Users } from "react-feather";
 
 // Guards
 import AuthGuard from "../components/AuthGuard";
@@ -28,7 +27,6 @@ import {
 
 // Pages components
 import Accounts from "../pages/pages/Accounts";
-import Settings from "../pages/pages/Settings";
 const Profile = async(() => import("../pages/pages/Profile"));
 
 // Landing
@@ -89,24 +87,24 @@ const authRoutes = {
   component: null,
 };
 
-const pagesRoutes = {
-  id: "Pages",
-  path: "/pages",
-  icon: <Layout />,
-  children: [
-    {
-      path: "/pages/profile",
-      name: "Profile",
-      component: Profile,
-    },
-    {
-      path: "/pages/settings",
-      name: "Settings",
-      component: Settings,
-    },
-  ],
-  component: null,
-};
+// const pagesRoutes = {
+//   id: "Pages",
+//   path: "/pages",
+//   icon: <Layout />,
+//   children: [
+//     {
+//       path: "/pages/profile",
+//       name: "Profile",
+//       component: Profile,
+//     },
+//     {
+//       path: "/pages/settings",
+//       name: "Settings",
+//       component: Settings,
+//     },
+//   ],
+//   component: null,
+// };
 
 const accountRoutes = {
   id: "Accounts",
@@ -123,6 +121,21 @@ const userRoutes = {
   component: Accounts,
   children: null,
 };
+
+const profileRoutes = {
+  id: "Profile",
+  path: "/profile",
+  icon: <People />,
+  component: Profile,
+  children: null,
+};
+// const permissionRoutes = {
+//   id: "Permissions",
+//   path: "/permissions",
+//   icon: <People />,
+//   component: Accounts,
+//   children: null,
+// };
 
 const roleRoutes = {
   id: "Roles",
@@ -173,7 +186,7 @@ export const dashboardLayoutRoutes = [
   scaleRoutes,
   sensorRoutes,
   mealCountRoutes,
-  pagesRoutes,
+  profileRoutes,
 ];
 
 // Routes using the Auth layout
@@ -194,5 +207,5 @@ export const sidebarRoutes = [
   scaleRoutes,
   sensorRoutes,
   mealCountRoutes,
-  pagesRoutes,
+  profileRoutes,
 ];

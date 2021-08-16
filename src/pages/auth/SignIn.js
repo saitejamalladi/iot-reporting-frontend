@@ -9,10 +9,10 @@ import { Formik } from "formik";
 import { signIn } from "../../redux/actions/authActions";
 
 import {
-  Avatar,
   Checkbox,
   FormControlLabel,
   Button,
+  Grid,
   Paper,
   TextField as MuiTextField,
   Typography,
@@ -31,11 +31,20 @@ const Wrapper = styled(Paper)`
   }
 `;
 
-const BigAvatar = styled(Avatar)`
-  width: 92px;
-  height: 92px;
+const BrandTitle = styled(Typography)`
+  text-transform: uppercase;
+  color: orange;
+  font-size: 24px;
   text-align: center;
-  margin: 0 auto ${(props) => props.theme.spacing(5)}px;
+  font-weight: ${(props) => props.theme.typography.fontWeightBold};
+`;
+
+const BrandImage = styled.img`
+  max-width: 70px;
+  margin-right: ${(props) => props.theme.spacing(2)}px;
+  height: auto;
+  display: block;
+  text-align: center;
 `;
 
 function SignIn() {
@@ -45,11 +54,15 @@ function SignIn() {
   return (
     <Wrapper>
       <Helmet title="Sign In" />
-      <BigAvatar alt="Sai" src="/static/img/avatars/sai.jpg" />
-
-      <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Welcome back, Sai!
-      </Typography>
+      <Grid container direction={"column"} justify="center" alignItems="center">
+        <BrandImage
+          alt={`IOT Management group`}
+          src={`/static/img/brands/iot-brand-logo.jpg`}
+        />
+        <BrandTitle variant="body1" gutterBottom>
+          IOT Management Group
+        </BrandTitle>
+      </Grid>
       <Typography component="h2" variant="body1" align="center">
         Sign in to your account to continue
       </Typography>
