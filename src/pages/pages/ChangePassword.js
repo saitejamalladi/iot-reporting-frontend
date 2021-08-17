@@ -37,20 +37,25 @@ const Alert = styled(MuiAlert)(spacing);
 const Grid = styled(MuiGrid)(spacing);
 
 const initialValues = {
-  firstName: "Sai Teja",
-  lastName: "Malladi",
-  email: "saiteja.malladi@gmail.com",
-  phoneNumber: "+60398273497",
+  password: "",
+  confirmPassword: "",
 };
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
-  email: Yup.string().email().required("Required"),
-  phoneNumber: Yup.string().required("Required"),
+  password: Yup.string()
+    .min(12, "Must be at least 12 characters")
+    .max(255)
+    .required("Required"),
+  confirmPassword: Yup.string().when("password", {
+    is: (val) => (val && val.length > 0 ? true : false),
+    then: Yup.string().oneOf(
+      [Yup.ref("password")],
+      "Both password need to be the same"
+    ),
+  }),
 });
 
-function ProfileForm() {
+function PasswordForm() {
   const handleSubmit = async (
     values,
     { resetForm, setErrors, setStatus, setSubmitting }
@@ -89,78 +94,56 @@ function ProfileForm() {
               <Grid item xs={12} sm={6}>
                 {status && status.sent && (
                   <Alert severity="success" my={3}>
-                    Profile updated successfully!
+                    Password changed successfully!
                   </Alert>
                 )}
               </Grid>
             </Grid>
 
             {isSubmitting ? (
-              <Box display="flex" justifyContent="center" my={6}>
-                <CircularProgress />
-              </Box>
+              <Grid container direction={"column"} spacing={6}>
+                <Grid item xs={12} sm={6}>
+                  <Box display="flex" justifyContent="center" my={6}>
+                    <CircularProgress />
+                  </Box>
+                </Grid>
+              </Grid>
             ) : (
               <form onSubmit={handleSubmit}>
-                <Grid container direction={"column"} spacing={6}>
-                  <Grid item xs={12} sm={6}>
-                    <Grid container spacing={6}>
-                      <Grid item md={6}>
-                        <TextField
-                          name="firstName"
-                          label="First Name"
-                          value={values.firstName}
-                          error={Boolean(touched.firstName && errors.firstName)}
-                          fullWidth
-                          helperText={touched.firstName && errors.firstName}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          my={2}
-                        />
-                      </Grid>
-                      <Grid item md={6}>
-                        <TextField
-                          name="lastName"
-                          label="Last Name"
-                          value={values.lastName}
-                          error={Boolean(touched.lastName && errors.lastName)}
-                          fullWidth
-                          helperText={touched.lastName && errors.lastName}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          my={2}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
+                <Grid container direction={"column"} spacing={4}>
+                  <Grid item md={6}>
                     <TextField
-                      name="email"
-                      label="Email"
-                      value={values.email}
-                      error={Boolean(touched.email && errors.email)}
+                      name="password"
+                      label="Password"
+                      value={values.password}
+                      error={Boolean(touched.password && errors.password)}
                       fullWidth
-                      helperText={touched.email && errors.email}
+                      helperText={touched.password && errors.password}
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      type="email"
+                      type="password"
                       my={2}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item md={6}>
                     <TextField
-                      name="phone_number"
-                      label="Phone Number"
-                      value={values.phoneNumber}
-                      error={Boolean(touched.phoneNumber && errors.phoneNumber)}
+                      name="confirmPassword"
+                      label="Confirm password"
+                      value={values.confirmPassword}
+                      error={Boolean(
+                        touched.confirmPassword && errors.confirmPassword
+                      )}
                       fullWidth
-                      helperText={touched.email && errors.phoneNumber}
+                      helperText={
+                        touched.confirmPassword && errors.confirmPassword
+                      }
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      type="text"
+                      type="password"
                       my={2}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12}>
                     <Button
                       type="submit"
                       variant="contained"
@@ -180,19 +163,21 @@ function ProfileForm() {
   );
 }
 
-function Profile() {
+function ChangePassword() {
   return (
     <React.Fragment>
-      <Helmet title="Profile" />
-
-      <Typography variant="h3" gutterBottom display="inline">
-        Profile
-      </Typography>
+      <Helmet title="Password" />
+      <Grid justify="space-between" container spacing={24}>
+        <Grid item>
+          <Typography variant="h3" gutterBottom display="inline">
+            Change Password
+          </Typography>
+        </Grid>
+      </Grid>
       <Divider my={6} />
-
-      <ProfileForm />
+      <PasswordForm />
     </React.Fragment>
   );
 }
 
-export default Profile;
+export default ChangePassword;

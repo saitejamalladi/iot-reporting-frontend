@@ -26,12 +26,14 @@ import {
 } from "@material-ui/icons";
 
 // User components
+import AddUser from "../pages/pages/AddUser";
 import Users from "../pages/pages/Users";
 
 // Sensor components
 import Sensors from "../pages/pages/Sensors";
 
 // Role components
+import AddRole from "../pages/pages/AddRole";
 import Roles from "../pages/pages/Roles";
 
 // Scales components
@@ -40,8 +42,9 @@ import Scales from "../pages/pages/Scales";
 // Meal Count components
 import MealCount from "../pages/pages/MealCount";
 
-// Pages components
+// Profile components
 const Profile = async(() => import("../pages/pages/Profile"));
+import ChangePassword from "../pages/pages/ChangePassword";
 
 // Landing
 import Landing from "../pages/presentation/Landing";
@@ -105,8 +108,22 @@ const profileRoutes = {
   id: "Profile",
   path: "/profile",
   icon: <PeopleIcon />,
-  component: Profile,
-  children: null,
+  children: [
+    {
+      path: "/profile",
+      name: "Profile",
+      component: Profile,
+      guard: AuthGuard,
+    },
+    {
+      path: "/change-password",
+      name: "Change Password",
+      component: ChangePassword,
+      guard: AuthGuard,
+    },
+  ],
+  component: null,
+  guard: AuthGuard,
 };
 
 const accountRoutes = {
@@ -117,11 +134,19 @@ const accountRoutes = {
   children: null,
 };
 
-const userRoutes = {
+const viewUserRoutes = {
   id: "Users",
   path: "/users",
   icon: <PeopleIcon />,
   component: Users,
+  children: null,
+};
+
+const addUserRoutes = {
+  id: "Add User",
+  path: "/add-user",
+  icon: <PeopleIcon />,
+  component: AddUser,
   children: null,
 };
 
@@ -133,7 +158,15 @@ const userRoutes = {
 //   children: null,
 // };
 
-const roleRoutes = {
+const addRoleRoutes = {
+  id: "Add Role",
+  path: "/add-role",
+  icon: <PeopleIcon />,
+  component: AddRole,
+  children: null,
+};
+
+const viewRoleRoutes = {
   id: "Roles",
   path: "/roles",
   icon: <AssignmentIndIcon />,
@@ -168,8 +201,10 @@ const mealCountRoutes = {
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   accountRoutes,
-  userRoutes,
-  roleRoutes,
+  addUserRoutes,
+  viewUserRoutes,
+  addRoleRoutes,
+  viewRoleRoutes,
   scaleRoutes,
   sensorRoutes,
   mealCountRoutes,
@@ -188,8 +223,8 @@ export const protectedRoutes = [protectedPageRoutes];
 // Routes visible in the sidebar
 export const sidebarRoutes = [
   accountRoutes,
-  userRoutes,
-  roleRoutes,
+  viewUserRoutes,
+  viewRoleRoutes,
   scaleRoutes,
   sensorRoutes,
   mealCountRoutes,

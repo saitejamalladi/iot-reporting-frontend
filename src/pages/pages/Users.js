@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 
 import {
   Box,
+  Button,
   Divider as MuiDivider,
   Grid,
   IconButton,
@@ -20,9 +21,15 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import { Edit as EditIcon, Delete as DeleteIcon } from "@material-ui/icons";
+import {
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Add as AddIcon,
+} from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
+
+import { useHistory } from "react-router-dom";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -289,8 +296,12 @@ function EnhancedTable() {
     </div>
   );
 }
-
 function UserList() {
+  const history = useHistory();
+  const handleAddUser = (event) => {
+    event.preventDefault();
+    history.push("/add-user");
+  };
   return (
     <React.Fragment>
       <Helmet title="Users" />
@@ -299,6 +310,19 @@ function UserList() {
           <Typography variant="h3" gutterBottom display="inline">
             Users
           </Typography>
+        </Grid>
+        <Grid item>
+          <div>
+            <Button
+              color="primary"
+              variant="contained"
+              fullWidth
+              onClick={handleAddUser}
+            >
+              <AddIcon />
+              Add user
+            </Button>
+          </div>
         </Grid>
       </Grid>
       <Divider my={6} />

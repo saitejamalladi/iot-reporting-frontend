@@ -54,7 +54,10 @@ function UserDropdown() {
     closeMenu();
     history.push("/profile");
   };
-
+  const handleChangePassword = async () => {
+    closeMenu();
+    history.push("/change-password");
+  };
   const handleSignOut = async () => {
     await dispatch(signOut());
     history.push("/auth/sign-in");
@@ -80,6 +83,7 @@ function UserDropdown() {
         onClose={closeMenu}
       >
         <MenuItem onClick={handleProfile}>Profile</MenuItem>
+        <MenuItem onClick={handleChangePassword}>Change Password</MenuItem>
         <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
       </Menu>
     </React.Fragment>

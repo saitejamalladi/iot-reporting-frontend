@@ -4,6 +4,7 @@ import styled from "styled-components/macro";
 import { Helmet } from "react-helmet-async";
 
 import {
+  Button,
   Divider as MuiDivider,
   Grid,
   Paper as MuiPaper,
@@ -19,6 +20,8 @@ import {
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
+import { Add as AddIcon } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -199,6 +202,11 @@ function EnhancedTable() {
 }
 
 function RolesList() {
+  const history = useHistory();
+  const handleAddRole = (event) => {
+    event.preventDefault();
+    history.push("/add-role");
+  };
   return (
     <React.Fragment>
       <Helmet title="Roles" />
@@ -207,6 +215,19 @@ function RolesList() {
           <Typography variant="h3" gutterBottom display="inline">
             View Roles
           </Typography>
+        </Grid>
+        <Grid item>
+          <div>
+            <Button
+              color="primary"
+              variant="contained"
+              fullWidth
+              onClick={handleAddRole}
+            >
+              <AddIcon />
+              Add Role
+            </Button>
+          </div>
         </Grid>
       </Grid>
       <Divider my={6} />
