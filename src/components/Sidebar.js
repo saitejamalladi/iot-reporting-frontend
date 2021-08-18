@@ -19,6 +19,7 @@ import {
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 import { sidebarRoutes as routes } from "../routes/index";
+import { useSelector } from "react-redux";
 
 const Drawer = styled(MuiDrawer)`
   border-right: 0;
@@ -262,7 +263,8 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
       Object.assign({}, openRoutes, { [index]: !openRoutes[index] })
     );
   };
-
+  const auth = useSelector((state) => state.authReducer);
+  let userRole = auth.user ? auth.user.role : "";
   return (
     <Drawer variant="permanent" {...rest}>
       <Brand component={NavLink} to="/" button>
@@ -281,45 +283,48 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
                   <SidebarSection>{category.header}</SidebarSection>
                 ) : null}
 
-                {category.children && category.icon ? (
-                  <React.Fragment key={index}>
-                    <SidebarCategory
-                      isOpen={!openRoutes[index]}
-                      isCollapsable={true}
-                      name={category.id}
-                      icon={category.icon}
-                      button={true}
-                      onClick={() => toggle(index)}
-                    />
+                {!category.permittedRoles ||
+                category.permittedRoles.includes(userRole) ? (
+                  category.children && category.icon ? (
+                    <React.Fragment key={index}>
+                      <SidebarCategory
+                        isOpen={!openRoutes[index]}
+                        isCollapsable={true}
+                        name={category.id}
+                        icon={category.icon}
+                        button={true}
+                        onClick={() => toggle(index)}
+                      />
 
-                    <Collapse
-                      in={openRoutes[index]}
-                      timeout="auto"
-                      unmountOnExit
-                    >
-                      {category.children.map((route, index) => (
-                        <SidebarLink
-                          key={index}
-                          name={route.name}
-                          to={route.path}
-                          icon={route.icon}
-                          badge={route.badge}
-                        />
-                      ))}
-                    </Collapse>
-                  </React.Fragment>
-                ) : category.icon ? (
-                  <SidebarCategory
-                    isCollapsable={false}
-                    name={category.id}
-                    to={category.path}
-                    activeClassName="active"
-                    component={NavLink}
-                    icon={category.icon}
-                    exact
-                    button
-                    badge={category.badge}
-                  />
+                      <Collapse
+                        in={openRoutes[index]}
+                        timeout="auto"
+                        unmountOnExit
+                      >
+                        {category.children.map((route, index) => (
+                          <SidebarLink
+                            key={index}
+                            name={route.name}
+                            to={route.path}
+                            icon={route.icon}
+                            badge={route.badge}
+                          />
+                        ))}
+                      </Collapse>
+                    </React.Fragment>
+                  ) : category.icon ? (
+                    <SidebarCategory
+                      isCollapsable={false}
+                      name={category.id}
+                      to={category.path}
+                      activeClassName="active"
+                      component={NavLink}
+                      icon={category.icon}
+                      exact
+                      button
+                      badge={category.badge}
+                    />
+                  ) : null
                 ) : null}
               </React.Fragment>
             ))}

@@ -16,6 +16,7 @@ export function signIn(credentials) {
           id: response.id,
           email: response.email,
           name: response.name,
+          role: response.role,
         });
       })
       .catch((error) => {

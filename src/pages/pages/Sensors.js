@@ -210,7 +210,7 @@ function SensorList() {
   return (
     <React.Fragment>
       <Helmet title="Sensors" />
-      <Grid justify="space-between" container spacing={24}>
+      <Grid justify="space-between" container spacing={4}>
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
             View Sensors

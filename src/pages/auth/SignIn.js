@@ -86,8 +86,8 @@ function SignIn() {
 
       <Formik
         initialValues={{
-          email: "saiteja.malladi@gmail.com",
-          password: "Idm@1234",
+          email: "superadmin@iot-sensor.com",
+          password: "superadmin",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
@@ -184,10 +184,6 @@ function SignIn() {
                 <Menu
                   id="sign-in"
                   anchorEl={anchorMenu}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                  }}
                   open={Boolean(anchorMenu)}
                   onClose={closeMenu}
                 >

@@ -112,6 +112,16 @@ const profileRoutes = {
   ],
   component: null,
   guard: AuthGuard,
+  permittedRoles: [
+    "Super Admin",
+    "Global Admin",
+    "Country Admin",
+    "Sector Admin",
+    "Site Admin",
+    "General Manager",
+    "User",
+    "Public",
+  ],
 };
 
 const accountRoutes = {
@@ -129,6 +139,16 @@ const viewUserRoutes = {
   icon: <PeopleIcon />,
   component: Users,
   children: null,
+  permittedRoles: [
+    "Super Admin",
+    "Global Admin",
+    "Country Admin",
+    "Sector Admin",
+    "Site Admin",
+    "General Manager",
+    "User",
+    "Public",
+  ],
 };
 
 const addUserRoutes = {
@@ -137,6 +157,14 @@ const addUserRoutes = {
   icon: <PeopleIcon />,
   component: AddUser,
   children: null,
+  permittedRoles: [
+    "Super Admin",
+    "Global Admin",
+    "Country Admin",
+    "Sector Admin",
+    "Site Admin",
+    "General Manager",
+  ],
 };
 
 const addRoleRoutes = {
@@ -145,6 +173,7 @@ const addRoleRoutes = {
   icon: <PeopleIcon />,
   component: AddRole,
   children: null,
+  permittedRoles: ["Super Admin"],
 };
 
 const viewRoleRoutes = {
@@ -153,6 +182,7 @@ const viewRoleRoutes = {
   icon: <AssignmentIndIcon />,
   component: Roles,
   children: null,
+  permittedRoles: ["Super Admin"],
 };
 
 const scaleRoutes = {
@@ -161,6 +191,14 @@ const scaleRoutes = {
   icon: <AspectRatioIcon />,
   component: Scales,
   children: null,
+  permittedRoles: [
+    "Super Admin",
+    "Global Admin",
+    "Country Admin",
+    "Sector Admin",
+    "Site Admin",
+    "Public",
+  ],
 };
 
 const sensorRoutes = {
@@ -169,6 +207,14 @@ const sensorRoutes = {
   icon: <CastConnectedIcon />,
   component: Sensors,
   children: null,
+  permittedRoles: [
+    "Super Admin",
+    "Global Admin",
+    "Country Admin",
+    "Sector Admin",
+    "Site Admin",
+    "Public",
+  ],
 };
 
 const mealCountRoutes = {
@@ -177,6 +223,7 @@ const mealCountRoutes = {
   icon: <FastfoodIcon />,
   component: MealCount,
   children: null,
+  permittedRoles: ["Super Admin", "General Manager", "Public"],
 };
 
 // Routes using the Dashboard layout

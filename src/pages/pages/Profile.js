@@ -39,7 +39,7 @@ const Grid = styled(MuiGrid)(spacing);
 const initialValues = {
   firstName: "Sai Teja",
   lastName: "Malladi",
-  email: "saiteja.malladi@gmail.com",
+  email: "saiteja.malladi@iot-sensor.com",
   phoneNumber: "+60398273497",
 };
 

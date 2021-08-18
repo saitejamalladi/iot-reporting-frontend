@@ -9,6 +9,7 @@ export default function reducer(state = {}, actions) {
           id: actions.id,
           email: actions.email,
           name: actions.name,
+          role: actions.role,
         },
       };
 

@@ -97,7 +97,7 @@ function AccountList() {
   return (
     <React.Fragment>
       <Helmet title="Accounts" />
-      <Grid justify="space-between" container spacing={24}>
+      <Grid justify="space-between" container spacing={4}>
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
             Accounts
@@ -107,16 +107,16 @@ function AccountList() {
       <Divider my={6} />
       <Grid container spacing={4}>
         {accounts.map((account, index) => (
-          <Grid item xs={6} sm={3}>
-            <AccountPaper key={index}>
+          <Grid key={index} item xs={6} sm={3}>
+            <AccountPaper>
               <Grid container>
                 <Grid item xs={"auto"}>
                   <AccountIcon />
                 </Grid>
                 <Grid item xs={8}>
-                  <AccountCard>
-                    <AccountTitle>{account.title}</AccountTitle>
-                    <AccountCount>{account.count}</AccountCount>
+                  <AccountCard variant="body1">
+                    <AccountTitle variant="div">{account.title}</AccountTitle>
+                    <AccountCount variant="div">{account.count}</AccountCount>
                   </AccountCard>
                 </Grid>
               </Grid>

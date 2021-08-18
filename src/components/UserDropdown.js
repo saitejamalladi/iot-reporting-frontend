@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/macro";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Tooltip, Menu, MenuItem, Typography } from "@material-ui/core";
 
@@ -24,6 +24,8 @@ function UserDropdown() {
   const [anchorMenu, setAnchorMenu] = React.useState(null);
   const history = useHistory();
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.authReducer);
+  let user = auth.user ? auth.user : {};
 
   const toggleMenu = (event) => {
     setAnchorMenu(event.currentTarget);
@@ -55,8 +57,8 @@ function UserDropdown() {
           onClick={toggleMenu}
           color="inherit"
         >
-          <ProfileName>Sai Teja</ProfileName>
-          <ProfileRole>Super Admin</ProfileRole>
+          <ProfileName>{user.name}</ProfileName>
+          <ProfileRole>{user.role}</ProfileRole>
         </Button>
       </Tooltip>
       <Menu
@@ -64,10 +66,6 @@ function UserDropdown() {
         anchorEl={anchorMenu}
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
       >
         <MenuItem onClick={handleProfile}>Profile</MenuItem>
         <MenuItem onClick={handleChangePassword}>Change Password</MenuItem>
