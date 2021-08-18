@@ -139,14 +139,6 @@ const addUserRoutes = {
   children: null,
 };
 
-// const permissionRoutes = {
-//   id: "Permissions",
-//   path: "/permissions",
-//   icon: <People />,
-//   component: Accounts,
-//   children: null,
-// };
-
 const addRoleRoutes = {
   id: "Add Role",
   path: "/add-role",
