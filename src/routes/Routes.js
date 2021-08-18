@@ -1,15 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import {
-  dashboardLayoutRoutes,
-  authLayoutRoutes,
-  presentationLayoutRoutes,
-  protectedRoutes,
-} from "./index";
+import { dashboardLayoutRoutes, authLayoutRoutes } from "./index";
 
 import DashboardLayout from "../layouts/Dashboard";
 import AuthLayout from "../layouts/Auth";
-import PresentationLayout from "../layouts/Presentation";
 import Page404 from "../pages/auth/Page404";
 
 const childRoutes = (Layout, routes) =>
@@ -56,9 +50,7 @@ const Routes = () => (
   <Router>
     <Switch>
       {childRoutes(DashboardLayout, dashboardLayoutRoutes)}
-      {childRoutes(DashboardLayout, protectedRoutes)}
       {childRoutes(AuthLayout, authLayoutRoutes)}
-      {childRoutes(PresentationLayout, presentationLayoutRoutes)}
       <Route
         render={() => (
           <AuthLayout>

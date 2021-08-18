@@ -48,7 +48,7 @@ function SignUp() {
         IOT Management Group
       </BrandTitle>
       <Typography component="h2" variant="body1" align="center">
-        Register a Public/Individual
+        Register a new Company/Global
       </Typography>
 
       <Formik

@@ -3,26 +3,9 @@ import styled from "styled-components/macro";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import {
-  Tooltip,
-  Menu,
-  MenuItem,
-  IconButton as MuiIconButton,
-  Typography,
-} from "@material-ui/core";
+import { Button, Tooltip, Menu, MenuItem, Typography } from "@material-ui/core";
 
 import { signOut } from "../redux/actions/authActions";
-
-const IconButton = styled(MuiIconButton)`
-  svg {
-    width: 22px;
-    height: 22px;
-  }
-  
-  &:hover {
-    border-radius: 3px;
-  },
-`;
 
 const ProfileName = styled(Typography)`
   color: ${(props) => props.theme.sidebar.color.black};
@@ -66,7 +49,7 @@ function UserDropdown() {
   return (
     <React.Fragment>
       <Tooltip title="Account">
-        <IconButton
+        <Button
           aria-owns={Boolean(anchorMenu) ? "menu-appbar" : undefined}
           aria-haspopup="true"
           onClick={toggleMenu}
@@ -74,13 +57,17 @@ function UserDropdown() {
         >
           <ProfileName>Sai Teja</ProfileName>
           <ProfileRole>Super Admin</ProfileRole>
-        </IconButton>
+        </Button>
       </Tooltip>
       <Menu
         id="menu-appbar"
         anchorEl={anchorMenu}
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
       >
         <MenuItem onClick={handleProfile}>Profile</MenuItem>
         <MenuItem onClick={handleChangePassword}>Change Password</MenuItem>

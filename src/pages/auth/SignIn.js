@@ -16,6 +16,9 @@ import {
   Paper,
   TextField as MuiTextField,
   Typography,
+  MenuItem,
+  Menu,
+  Tooltip,
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
 import { Alert as MuiAlert } from "@material-ui/lab";
@@ -50,6 +53,20 @@ const BrandImage = styled.img`
 function SignIn() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [anchorMenu, setAnchorMenu] = React.useState(null);
+
+  const toggleMenu = (event) => {
+    setAnchorMenu(event.currentTarget);
+  };
+
+  const closeMenu = () => {
+    setAnchorMenu(null);
+  };
+
+  const handleRegister = async (role) => {
+    closeMenu();
+    history.push("/auth/sign-up/" + role);
+  };
 
   return (
     <Wrapper>
@@ -85,7 +102,7 @@ function SignIn() {
             await dispatch(
               signIn({ email: values.email, password: values.password })
             );
-            history.push("/private");
+            history.push("/");
           } catch (error) {
             const message = error.message || "Something went wrong";
 
@@ -147,14 +164,43 @@ function SignIn() {
             >
               Sign in
             </Button>
-            <Button
-              component={Link}
-              to="/auth/reset-password"
-              fullWidth
-              color="primary"
-            >
-              Forgot password
-            </Button>
+            <Grid container spacing={2}>
+              <Grid item sm={6}>
+                <Button
+                  component={Link}
+                  to="/auth/reset-password"
+                  fullWidth
+                  color="primary"
+                >
+                  Forgot password
+                </Button>
+              </Grid>
+              <Grid item sm={6}>
+                <Tooltip title="Account">
+                  <Button onClick={toggleMenu} fullWidth color="primary">
+                    Create Account?
+                  </Button>
+                </Tooltip>
+                <Menu
+                  id="sign-in"
+                  anchorEl={anchorMenu}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  open={Boolean(anchorMenu)}
+                  onClose={closeMenu}
+                >
+                  <MenuItem onClick={() => handleRegister("")}>Public</MenuItem>
+                  <MenuItem onClick={() => handleRegister("super-admin")}>
+                    Super Admin
+                  </MenuItem>
+                  <MenuItem onClick={() => handleRegister("global-admin")}>
+                    Global Admin
+                  </MenuItem>
+                </Menu>
+              </Grid>
+            </Grid>
           </form>
         )}
       </Formik>

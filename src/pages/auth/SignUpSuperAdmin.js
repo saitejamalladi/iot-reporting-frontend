@@ -47,8 +47,11 @@ function SignUp() {
       <BrandTitle variant="body1" gutterBottom>
         IOT Management Group
       </BrandTitle>
+      <Typography component="h1" variant="h4" align="center" gutterBottom>
+        Get started
+      </Typography>
       <Typography component="h2" variant="body1" align="center">
-        Register a Public/Individual
+        Register a new Super Admin
       </Typography>
 
       <Formik

@@ -2,7 +2,7 @@
 import React from "react";
 import async from "../components/Async";
 
-import { Monitor, Users as UsersIcon } from "react-feather";
+import { Users as UsersIcon } from "react-feather";
 
 // Guards
 import AuthGuard from "../components/AuthGuard";
@@ -10,6 +10,8 @@ import AuthGuard from "../components/AuthGuard";
 // Auth components
 import SignIn from "../pages/auth/SignIn";
 import SignUp from "../pages/auth/SignUp";
+import SignUpSuperAdmin from "../pages/auth/SignUpSuperAdmin";
+import SignUpGlobalAdmin from "../pages/auth/SignUpGlobalAdmin";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Page404 from "../pages/auth/Page404";
 import Page500 from "../pages/auth/Page500";
@@ -46,30 +48,6 @@ import MealCount from "../pages/pages/MealCount";
 const Profile = async(() => import("../pages/pages/Profile"));
 import ChangePassword from "../pages/pages/ChangePassword";
 
-// Landing
-import Landing from "../pages/presentation/Landing";
-
-// Protected routes
-import ProtectedPage from "../pages/protected/ProtectedPage";
-
-// This route is only visible while signed in
-const protectedPageRoutes = {
-  id: "Private",
-  path: "/private",
-  component: ProtectedPage,
-  children: null,
-  guard: AuthGuard,
-};
-
-const landingRoutes = {
-  id: "Landing Page",
-  path: "/",
-  header: "Docs",
-  icon: <Monitor />,
-  component: Landing,
-  children: null,
-};
-
 const authRoutes = {
   id: "Auth",
   path: "/auth",
@@ -84,6 +62,16 @@ const authRoutes = {
       path: "/auth/sign-up",
       name: "Sign Up",
       component: SignUp,
+    },
+    {
+      path: "/auth/sign-up/super-admin",
+      name: "Sign Up->Super Admin",
+      component: SignUpSuperAdmin,
+    },
+    {
+      path: "/auth/sign-up/global-admin",
+      name: "Sign Up->Global Admin",
+      component: SignUpGlobalAdmin,
     },
     {
       path: "/auth/reset-password",
@@ -128,10 +116,11 @@ const profileRoutes = {
 
 const accountRoutes = {
   id: "Accounts",
-  path: "/accounts",
+  path: "/",
   icon: <AccountCircleIcon />,
   component: Accounts,
   children: null,
+  guard: AuthGuard,
 };
 
 const viewUserRoutes = {
@@ -213,12 +202,6 @@ export const dashboardLayoutRoutes = [
 
 // Routes using the Auth layout
 export const authLayoutRoutes = [authRoutes];
-
-// Routes using the Presentation layout
-export const presentationLayoutRoutes = [landingRoutes];
-
-// Routes that are protected
-export const protectedRoutes = [protectedPageRoutes];
 
 // Routes visible in the sidebar
 export const sidebarRoutes = [
