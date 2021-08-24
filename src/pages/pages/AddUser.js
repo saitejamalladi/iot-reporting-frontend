@@ -27,7 +27,6 @@ import { Alert as MuiAlert } from "@material-ui/lab";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Add as AddIcon } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 
 const timeOut = (time) => new Promise((res) => setTimeout(res, time));
@@ -466,7 +465,6 @@ function AddUser() {
               fullWidth
               onClick={handleViewUser}
             >
-              <AddIcon />
               View users
             </Button>
           </div>

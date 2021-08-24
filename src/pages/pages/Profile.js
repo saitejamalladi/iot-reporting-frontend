@@ -37,10 +37,10 @@ const Alert = styled(MuiAlert)(spacing);
 const Grid = styled(MuiGrid)(spacing);
 
 const initialValues = {
-  firstName: "Sai Teja",
-  lastName: "Malladi",
-  email: "saiteja.malladi@iot-sensor.com",
-  phoneNumber: "+60398273497",
+  firstName: "John",
+  lastName: "doe",
+  email: "john.doe@hotmail.com",
+  phoneNumber: "+97123091401824",
 };
 
 const validationSchema = Yup.object().shape({

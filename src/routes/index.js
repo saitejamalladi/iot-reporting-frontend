@@ -22,7 +22,7 @@ import {
   AccountCircle as AccountCircleIcon,
   AssignmentInd as AssignmentIndIcon,
   AspectRatio as AspectRatioIcon,
-  CastConnected as CastConnectedIcon,
+  Assessment as AssessmentIcon,
   Fastfood as FastfoodIcon,
   People as PeopleIcon,
 } from "@material-ui/icons";
@@ -31,8 +31,8 @@ import {
 import AddUser from "../pages/pages/AddUser";
 import Users from "../pages/pages/Users";
 
-// Sensor components
-import Sensors from "../pages/pages/Sensors";
+// Report components
+import Report from "../pages/pages/Reports";
 
 // Role components
 import AddRole from "../pages/pages/AddRole";
@@ -201,11 +201,11 @@ const scaleRoutes = {
   ],
 };
 
-const sensorRoutes = {
-  id: "Sensors",
-  path: "/sensors",
-  icon: <CastConnectedIcon />,
-  component: Sensors,
+const reportRoutes = {
+  id: "Report",
+  path: "/report",
+  icon: <AssessmentIcon />,
+  component: Report,
   children: null,
   permittedRoles: [
     "Super Admin",
@@ -234,7 +234,7 @@ export const dashboardLayoutRoutes = [
   addRoleRoutes,
   viewRoleRoutes,
   scaleRoutes,
-  sensorRoutes,
+  reportRoutes,
   mealCountRoutes,
   profileRoutes,
 ];
@@ -247,7 +247,7 @@ export const sidebarRoutes = [
   accountRoutes,
   viewUserRoutes,
   viewRoleRoutes,
+  reportRoutes,
   scaleRoutes,
-  sensorRoutes,
   mealCountRoutes,
 ];

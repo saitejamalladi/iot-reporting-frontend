@@ -46,7 +46,7 @@ const activeUsers = [
   {
     id: "7",
     email: "superadmin@iot-sensor.com",
-    name: "User I",
+    name: "John Doe",
     role: "Super Admin",
   },
 ];
