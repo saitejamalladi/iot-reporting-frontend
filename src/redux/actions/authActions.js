@@ -83,7 +83,6 @@ export function resetPassword(credentials) {
       .then((response) => {
         dispatch({
           type: types.AUTH_RESET_PASSWORD_SUCCESS,
-          email: response.email,
         });
       })
       .catch((error) => {

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Tooltip, Menu, MenuItem, Typography } from "@material-ui/core";
 
 import { signOut } from "../redux/actions/authActions";
+import { AUTH_TOKEN } from "../constants";
 
 const ProfileName = styled(Typography)`
   color: ${(props) => props.theme.sidebar.color.black};
@@ -44,6 +45,7 @@ function UserDropdown() {
     history.push("/change-password");
   };
   const handleSignOut = async () => {
+    localStorage.removeItem(AUTH_TOKEN);
     await dispatch(signOut());
     history.push("/auth/sign-in");
   };

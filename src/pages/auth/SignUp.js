@@ -96,7 +96,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email().required("Required"),
   phoneNumber: Yup.string().required("Required"),
   password: Yup.string()
-    .min(12, "Must be at least 12 characters")
+    .min(5, "Must be at least 5 characters")
     .max(255)
     .required("Required"),
   confirmPassword: Yup.string().when("password", {

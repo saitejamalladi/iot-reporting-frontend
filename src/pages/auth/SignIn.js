@@ -9,16 +9,11 @@ import { Formik } from "formik";
 import { signIn } from "../../redux/actions/authActions";
 
 import {
-  Checkbox,
-  FormControlLabel,
   Button,
   Grid,
   Paper,
   TextField as MuiTextField,
   Typography,
-  MenuItem,
-  Menu,
-  Tooltip,
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
 import { Alert as MuiAlert } from "@material-ui/lab";
@@ -54,23 +49,23 @@ function SignIn() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const [anchorMenu, setAnchorMenu] = React.useState(null);
+  // const [anchorMenu, setAnchorMenu] = React.useState(null);
   const auth = useSelector((state) => state.authReducer);
   if (auth.user && location.pathname === "/auth/sign-in") {
     history.push("/");
   }
-  const toggleMenu = (event) => {
-    setAnchorMenu(event.currentTarget);
-  };
+  // const toggleMenu = (event) => {
+  //   setAnchorMenu(event.currentTarget);
+  // };
+  //
+  // const closeMenu = () => {
+  //   setAnchorMenu(null);
+  // };
 
-  const closeMenu = () => {
-    setAnchorMenu(null);
-  };
-
-  const handleRegister = async (role) => {
-    closeMenu();
-    history.push("/auth/sign-up/" + role);
-  };
+  // const handleRegister = async (role) => {
+  //   closeMenu();
+  //   history.push("/auth/sign-up/" + role);
+  // };
 
   return (
     <Wrapper>
@@ -90,8 +85,8 @@ function SignIn() {
 
       <Formik
         initialValues={{
-          username: "Admin",
-          password: "password",
+          username: "",
+          password: "",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
@@ -153,10 +148,6 @@ function SignIn() {
               onChange={handleChange}
               my={2}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -167,7 +158,7 @@ function SignIn() {
               Sign in
             </Button>
             <Grid container spacing={2}>
-              <Grid item sm={6}>
+              <Grid item sm={12}>
                 <Button
                   component={Link}
                   to="/auth/reset-password"
@@ -177,27 +168,27 @@ function SignIn() {
                   Forgot password
                 </Button>
               </Grid>
-              <Grid item sm={6}>
-                <Tooltip title="Account">
-                  <Button onClick={toggleMenu} fullWidth color="primary">
-                    Create Account?
-                  </Button>
-                </Tooltip>
-                <Menu
-                  id="sign-in"
-                  anchorEl={anchorMenu}
-                  open={Boolean(anchorMenu)}
-                  onClose={closeMenu}
-                >
-                  <MenuItem onClick={() => handleRegister("")}>Public</MenuItem>
-                  <MenuItem onClick={() => handleRegister("super-admin")}>
-                    Super Admin
-                  </MenuItem>
-                  <MenuItem onClick={() => handleRegister("global-admin")}>
-                    Global Admin
-                  </MenuItem>
-                </Menu>
-              </Grid>
+              {/*<Grid item sm={6}>*/}
+              {/*  <Tooltip title="Account">*/}
+              {/*    <Button onClick={toggleMenu} fullWidth color="primary">*/}
+              {/*      Create Account?*/}
+              {/*    </Button>*/}
+              {/*  </Tooltip>*/}
+              {/*  <Menu*/}
+              {/*    id="sign-in"*/}
+              {/*    anchorEl={anchorMenu}*/}
+              {/*    open={Boolean(anchorMenu)}*/}
+              {/*    onClose={closeMenu}*/}
+              {/*  >*/}
+              {/*    <MenuItem onClick={() => handleRegister("")}>Public</MenuItem>*/}
+              {/*    <MenuItem onClick={() => handleRegister("super-admin")}>*/}
+              {/*      Super Admin*/}
+              {/*    </MenuItem>*/}
+              {/*    <MenuItem onClick={() => handleRegister("global-admin")}>*/}
+              {/*      Global Admin*/}
+              {/*    </MenuItem>*/}
+              {/*  </Menu>*/}
+              {/*</Grid>*/}
             </Grid>
           </form>
         )}

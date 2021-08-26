@@ -71,8 +71,8 @@ function SignUp() {
             .max(255)
             .required("Email is required"),
           password: Yup.string()
-            .min(12, "Must be at least 12 characters")
-            .max(255)
+            .min(5, "Must be at least 5 characters")
+            .max(15, "Must be at least 15 characters")
             .required("Required"),
           confirmPassword: Yup.string().when("password", {
             is: (val) => (val && val.length > 0 ? true : false),
