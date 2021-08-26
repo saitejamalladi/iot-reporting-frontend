@@ -10,6 +10,7 @@ export const THEMES = {
 };
 
 // Auth
+export const AUTH_TOKEN = "AUTH_TOKEN";
 export const AUTH_SIGN_IN_REQUEST = "AUTH_SIGN_IN_REQUEST";
 export const AUTH_SIGN_IN_SUCCESS = "AUTH_SIGN_IN_SUCCESS";
 export const AUTH_SIGN_IN_FAILURE = "AUTH_SIGN_IN_FAILURE";

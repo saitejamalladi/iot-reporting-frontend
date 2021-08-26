@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -53,8 +53,12 @@ const BrandImage = styled.img`
 function SignIn() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const [anchorMenu, setAnchorMenu] = React.useState(null);
-
+  const auth = useSelector((state) => state.authReducer);
+  if (auth.user && location.pathname === "/auth/sign-in") {
+    history.push("/");
+  }
   const toggleMenu = (event) => {
     setAnchorMenu(event.currentTarget);
   };
@@ -86,25 +90,23 @@ function SignIn() {
 
       <Formik
         initialValues={{
-          email: "superadmin@iot-sensor.com",
-          password: "superadmin",
+          username: "Admin",
+          password: "password",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string()
-            .email("Must be a valid email")
-            .max(255)
-            .required("Email is required"),
+          username: Yup.string().max(255).required("username is required"),
           password: Yup.string().max(255).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             await dispatch(
-              signIn({ email: values.email, password: values.password })
+              signIn({ username: values.username, password: values.password })
             );
             history.push("/");
           } catch (error) {
-            const message = error.message || "Something went wrong";
+            const message =
+              error["display_msg"] || error.message || "Something went wrong";
 
             setStatus({ success: false });
             setErrors({ submit: message });
@@ -128,13 +130,13 @@ function SignIn() {
               </Alert>
             )}
             <TextField
-              type="email"
-              name="email"
-              label="Email Address"
-              value={values.email}
-              error={Boolean(touched.email && errors.email)}
+              type="text"
+              name="username"
+              label="Username"
+              value={values.username}
+              error={Boolean(touched.username && errors.username)}
               fullWidth
-              helperText={touched.email && errors.email}
+              helperText={touched.username && errors.username}
               onBlur={handleBlur}
               onChange={handleChange}
               my={2}

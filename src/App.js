@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import DateFnsUtils from "@date-io/date-fns";
 
@@ -15,6 +15,7 @@ import {
 
 import createTheme from "./theme";
 import Routes from "./routes/Routes";
+import { authInit } from "./redux/actions/authActions";
 
 const jss = create({
   ...jssPreset(),
@@ -22,6 +23,8 @@ const jss = create({
 });
 
 function App() {
+  const dispatch = useDispatch();
+  dispatch(authInit());
   const theme = useSelector((state) => state.themeReducer);
 
   return (

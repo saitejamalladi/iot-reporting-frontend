@@ -3,8 +3,31 @@ import {
   signIn as authSignIn,
   signUp as authSignUp,
   resetPassword as authResetPassword,
+  authInit as authInitService,
 } from "../../services/authService";
+import { AUTH_TOKEN } from "../../constants";
 
+export function authInit() {
+  return async (dispatch) => {
+    let token = localStorage.getItem(AUTH_TOKEN);
+    if (token) {
+      return authInitService(token)
+        .then((response) => {
+          dispatch({
+            type: types.AUTH_SIGN_IN_SUCCESS,
+            email: response.email,
+            name: response.firstName + " " + response.lastName,
+            role: "Super Admin",
+          });
+        })
+        .catch((error) => {
+          throw error;
+        });
+    } else {
+      return dispatch({ type: types.AUTH_SIGN_IN_FAILURE });
+    }
+  };
+}
 export function signIn(credentials) {
   return async (dispatch) => {
     dispatch({ type: types.AUTH_SIGN_IN_REQUEST });
@@ -13,10 +36,9 @@ export function signIn(credentials) {
       .then((response) => {
         dispatch({
           type: types.AUTH_SIGN_IN_SUCCESS,
-          id: response.id,
           email: response.email,
-          name: response.name,
-          role: response.role,
+          name: response.firstName + " " + response.lastName,
+          role: "Super Admin",
         });
       })
       .catch((error) => {
@@ -25,7 +47,6 @@ export function signIn(credentials) {
       });
   };
 }
-
 export function signUp(credentials) {
   return async (dispatch) => {
     dispatch({ type: types.AUTH_SIGN_UP_REQUEST });
