@@ -3,13 +3,15 @@ import styled from "styled-components/macro";
 
 import { Helmet } from "react-helmet-async";
 
+import moment from "moment";
+
 import {
   Divider as MuiDivider,
   Grid,
   Paper as MuiPaper,
   Table,
   TableBody,
-  TableCell,
+  TableCell as MuiTableCell,
   TableContainer,
   TableHead,
   TablePagination,
@@ -19,6 +21,8 @@ import {
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
+import { fetchScales } from "../../redux/actions/scaleActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -30,22 +34,20 @@ const CustomTableRow = styled(TableRow)`
   }
 `;
 
+const TableCell = styled(MuiTableCell)`
+  padding: 10px 10px;
+`;
+
 function createData(
   id,
-  network_id,
+  device_id,
   scales_id,
   scales_name,
   scales_code,
   created_date
 ) {
-  return { id, network_id, scales_id, scales_name, scales_code, created_date };
+  return { id, device_id, scales_id, scales_name, scales_code, created_date };
 }
-
-const rows = [
-  createData("1", "edot1", "81927491", "edotscale1", "892", "2020-01-02"),
-  createData("2", "edot2", "81927492", "edotscale2", "890", "2020-01-04"),
-  createData("3", "edot3", "81927493", "edotscale3", "891", "2020-01-04"),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -75,7 +77,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: "id", alignment: "right", label: "Id" },
-  { id: "network_id", alignment: "left", label: "Network Id" },
+  { id: "device_id", alignment: "left", label: "Device Id" },
   { id: "scales_id", alignment: "left", label: "Scales Id" },
   { id: "scales_name", alignment: "left", label: "Scales Name" },
   { id: "scales_code", alignment: "left", label: "Scales Code" },
@@ -143,9 +145,22 @@ function EnhancedTable() {
     setPage(0);
   };
 
+  let scaleReducer = useSelector((state) => state.scaleReducer);
+  let scales = scaleReducer.scales ? scaleReducer.scales : [];
+
+  const rows = scales.map((scale) =>
+    createData(
+      scale.id_scales,
+      scale.device_id,
+      scale.device_id,
+      scale.serial_num,
+      scale.name,
+      scale.created_at
+    )
+  );
+
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
   return (
     <div>
       <Paper>
@@ -175,11 +190,13 @@ function EnhancedTable() {
                       key={`${row.id}-${index}`}
                     >
                       <TableCell align="right">{row.id}</TableCell>
-                      <TableCell align="left">{row.network_id}</TableCell>
+                      <TableCell align="left">{row.device_id}</TableCell>
                       <TableCell align="left">{row.scales_id}</TableCell>
                       <TableCell align="left">{row.scales_name}</TableCell>
                       <TableCell align="left">{row.scales_code}</TableCell>
-                      <TableCell align="left">{row.created_date}</TableCell>
+                      <TableCell align="left">
+                        {moment(row.created_date).format("DD-MM-YYYY")}
+                      </TableCell>
                     </CustomTableRow>
                   );
                 })}
@@ -206,6 +223,8 @@ function EnhancedTable() {
 }
 
 function ScalesList() {
+  const dispatch = useDispatch();
+  dispatch(fetchScales());
   return (
     <React.Fragment>
       <Helmet title="Scales" />

@@ -9,7 +9,7 @@ import {
   Paper as MuiPaper,
   Table,
   TableBody,
-  TableCell,
+  TableCell as MuiTableCell,
   TableContainer,
   TableHead,
   TablePagination,
@@ -19,6 +19,10 @@ import {
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
+import { fetchDevices } from "../../redux/actions/scaleActions";
+import { useDispatch, useSelector } from "react-redux";
+
+import moment from "moment";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -30,23 +34,13 @@ const CustomTableRow = styled(TableRow)`
   }
 `;
 
-function createData(
-  id,
-  network_id,
-  sensor_id,
-  sensor_name,
-  sensor_code,
-  created_date
-) {
-  return { id, network_id, sensor_id, sensor_name, sensor_code, created_date };
-}
+const TableCell = styled(MuiTableCell)`
+  padding: 10px 10px;
+`;
 
-const rows = [
-  createData("1", "ed11", "7890890", "foodedot", "892", "2021-01-02"),
-  createData("2", "ed12", "1231244", "foodedot2", "890", "2021-07-04"),
-  createData("3", "ed13", "7234234", "foodedot3", "891", "2021-08-05"),
-  createData("4", "ed23", "4785263", "foodedot4", "894", "2021-01-04"),
-];
+function createData(id, device_id, created_date, updated_date) {
+  return { id, device_id, created_date, updated_date };
+}
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -76,11 +70,9 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: "id", alignment: "right", label: "Id" },
-  { id: "network_id", alignment: "left", label: "Network Id" },
-  { id: "sensors_id", alignment: "left", label: "Sensors Id" },
-  { id: "sensors_name", alignment: "left", label: "Sensors Name" },
-  { id: "sensors_code", alignment: "left", label: "Sensors Code" },
+  { id: "device_id", alignment: "left", label: "Device Id" },
   { id: "created_date", alignment: "left", label: "Created Date" },
+  { id: "updated_date", alignment: "left", label: "Updated Date" },
 ];
 
 function EnhancedTableHead(props) {
@@ -144,9 +136,20 @@ function EnhancedTable() {
     setPage(0);
   };
 
+  let scaleReducer = useSelector((state) => state.scaleReducer);
+  let devices = scaleReducer.devices ? scaleReducer.devices : [];
+
+  const rows = devices.map((device, index) =>
+    createData(
+      index + 1,
+      device.device_id,
+      device.created_at,
+      device.updated_at
+    )
+  );
+
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
   return (
     <div>
       <Paper>
@@ -176,11 +179,13 @@ function EnhancedTable() {
                       key={`${row.id}-${index}`}
                     >
                       <TableCell align="right">{row.id}</TableCell>
-                      <TableCell align="left">{row.network_id}</TableCell>
-                      <TableCell align="left">{row.sensor_id}</TableCell>
-                      <TableCell align="left">{row.sensor_name}</TableCell>
-                      <TableCell align="left">{row.sensor_code}</TableCell>
-                      <TableCell align="left">{row.created_date}</TableCell>
+                      <TableCell align="left">{row.device_id}</TableCell>
+                      <TableCell align="left">
+                        {moment(row.created_date).format("DD-MM-YYYY")}
+                      </TableCell>
+                      <TableCell align="left">
+                        {moment(row.updated_date).format("DD-MM-YYYY")}
+                      </TableCell>
                     </CustomTableRow>
                   );
                 })}
@@ -206,14 +211,16 @@ function EnhancedTable() {
   );
 }
 
-function SensorList() {
+function DevicesList() {
+  const dispatch = useDispatch();
+  dispatch(fetchDevices());
   return (
     <React.Fragment>
-      <Helmet title="Sensors" />
+      <Helmet title="Devices" />
       <Grid justify="space-between" container spacing={4}>
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            View Sensors
+            View Devices
           </Typography>
         </Grid>
       </Grid>
@@ -227,4 +234,4 @@ function SensorList() {
   );
 }
 
-export default SensorList;
+export default DevicesList;

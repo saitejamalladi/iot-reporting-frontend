@@ -20,10 +20,8 @@ import Page500 from "../pages/auth/Page500";
 import Accounts from "../pages/pages/Accounts";
 import {
   AccountCircle as AccountCircleIcon,
-  AssignmentInd as AssignmentIndIcon,
   AspectRatio as AspectRatioIcon,
   Assessment as AssessmentIcon,
-  Fastfood as FastfoodIcon,
   People as PeopleIcon,
 } from "@material-ui/icons";
 
@@ -34,15 +32,11 @@ import Users from "../pages/pages/Users";
 // Report components
 import Report from "../pages/pages/Reports";
 
-// Role components
-import AddRole from "../pages/pages/AddRole";
-import Roles from "../pages/pages/Roles";
+// Device components
+import Devices from "../pages/pages/Devices";
 
 // Scales components
 import Scales from "../pages/pages/Scales";
-
-// Meal Count components
-import MealCount from "../pages/pages/MealCount";
 
 // Profile components
 const Profile = async(() => import("../pages/pages/Profile"));
@@ -167,29 +161,27 @@ const addUserRoutes = {
   ],
 };
 
-const addRoleRoutes = {
-  id: "Add Role",
-  path: "/add-role",
-  icon: <PeopleIcon />,
-  component: AddRole,
-  children: null,
-  permittedRoles: ["Super Admin"],
-};
-
-const viewRoleRoutes = {
-  id: "Roles",
-  path: "/roles",
-  icon: <AssignmentIndIcon />,
-  component: Roles,
-  children: null,
-  permittedRoles: ["Super Admin"],
-};
-
 const scaleRoutes = {
   id: "Scales",
   path: "/scales",
   icon: <AspectRatioIcon />,
   component: Scales,
+  children: null,
+  permittedRoles: [
+    "Super Admin",
+    "Global Admin",
+    "Country Admin",
+    "Sector Admin",
+    "Site Admin",
+    "Public",
+  ],
+};
+
+const deviceRoutes = {
+  id: "Devices",
+  path: "/devices",
+  icon: <AspectRatioIcon />,
+  component: Devices,
   children: null,
   permittedRoles: [
     "Super Admin",
@@ -217,25 +209,14 @@ const reportRoutes = {
   ],
 };
 
-const mealCountRoutes = {
-  id: "Meal Count",
-  path: "/meal-count",
-  icon: <FastfoodIcon />,
-  component: MealCount,
-  children: null,
-  permittedRoles: ["Super Admin", "General Manager", "Public"],
-};
-
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   accountRoutes,
   addUserRoutes,
   viewUserRoutes,
-  addRoleRoutes,
-  viewRoleRoutes,
+  deviceRoutes,
   scaleRoutes,
   reportRoutes,
-  mealCountRoutes,
   profileRoutes,
 ];
 
@@ -246,8 +227,7 @@ export const authLayoutRoutes = [authRoutes];
 export const sidebarRoutes = [
   accountRoutes,
   viewUserRoutes,
-  viewRoleRoutes,
-  reportRoutes,
+  deviceRoutes,
   scaleRoutes,
-  mealCountRoutes,
+  reportRoutes,
 ];
