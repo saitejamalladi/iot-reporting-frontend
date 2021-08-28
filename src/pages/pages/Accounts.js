@@ -7,19 +7,21 @@ import styled from "styled-components/macro";
 import { Helmet } from "react-helmet-async";
 
 import {
+  Button,
   Divider as MuiDivider,
   Grid,
   Paper as MuiPaper,
   Typography,
 } from "@material-ui/core";
 
-import { People as PeopleIcon } from "@material-ui/icons";
+import { Add as AddIcon, People as PeopleIcon } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
 import {
   fetchAccounts,
   fetchChildAccounts,
 } from "../../redux/actions/scaleActions";
+import { withRouter } from "react-router-dom";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -68,7 +70,10 @@ class Accounts extends Component {
     this.props.fetchAccounts();
   }
 
-  handleAccountClick = (accountId) => {
+  handleAddAccount = (parentAccount) => {
+    this.props.history.push("/add-account/", parentAccount);
+  };
+  handleViewAccount = (accountId) => {
     this.props.fetchChildAccounts(accountId);
   };
 
@@ -83,13 +88,26 @@ class Accounts extends Component {
               Accounts
             </Typography>
           </Grid>
+          <Grid item>
+            <div>
+              <Button
+                color="primary"
+                variant="contained"
+                fullWidth
+                onClick={() => this.handleAddAccount()}
+              >
+                <AddIcon />
+                Add Account
+              </Button>
+            </div>
+          </Grid>
         </Grid>
         <Divider my={6} />
         <Grid container spacing={4}>
           {accounts.map((account, index) => (
             <Grid key={index} item xs={6} sm={3}>
               <AccountPaper
-                onClick={() => this.handleAccountClick(account.account_id)}
+                onClick={() => this.handleViewAccount(account.account_id)}
               >
                 <Grid container>
                   <Grid item xs={"auto"}>
@@ -107,7 +125,7 @@ class Accounts extends Component {
               </AccountPaper>
             </Grid>
           ))}
-          <NoAccounts />
+          {accounts.length <= 0 && <NoAccounts />}
         </Grid>
       </React.Fragment>
     );
@@ -125,4 +143,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchChildAccounts: (accountId) => dispatch(fetchChildAccounts(accountId)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Accounts);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Accounts));

@@ -1,5 +1,25 @@
 import axios from "../utils/axios";
 
+export function addAccount(token, account) {
+  return new Promise((resolve, reject) => {
+    let authHeader = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios
+      .post("/api/account", account, authHeader)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data.res_data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 export function fetchAccounts(token) {
   return new Promise((resolve, reject) => {
     let authHeader = {

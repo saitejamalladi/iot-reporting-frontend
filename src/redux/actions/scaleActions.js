@@ -1,5 +1,6 @@
 import * as types from "../../constants";
 import {
+  addAccount as addAccountService,
   fetchAccounts as fetchAccountsService,
   fetchChildAccounts as fetchChildAccountsService,
   fetchUsers as fetchUsersService,
@@ -9,6 +10,25 @@ import {
 
 import { AUTH_TOKEN } from "../../constants";
 
+export function addAccount(account) {
+  return async (dispatch) => {
+    let token = localStorage.getItem(AUTH_TOKEN);
+    if (token) {
+      return addAccountService(token, account)
+        .then((response) => {
+          dispatch({
+            type: types.ADD_ACCOUNT_SUCCESS,
+            accounts: response,
+          });
+        })
+        .catch((error) => {
+          throw error;
+        });
+    } else {
+      return dispatch({ type: types.ADD_ACCOUNT_FAILURE });
+    }
+  };
+}
 export function fetchAccounts() {
   return async (dispatch) => {
     let token = localStorage.getItem(AUTH_TOKEN);
