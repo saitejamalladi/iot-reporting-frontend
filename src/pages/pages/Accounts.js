@@ -38,6 +38,7 @@ const AccountIcon = styled(PeopleIcon)`
   display: inline;
 `;
 const AccountPaper = styled(Paper)`
+  cursor: pointer;
   box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.13);
   transition: 0.15s ease-in-out;
 
@@ -56,6 +57,11 @@ const AccountTitle = styled(Typography)`
 const AccountCount = styled(Typography)`
   margin: ${(props) => props.theme.spacing(2)}px;
 `;
+const NoAccounts = () => (
+  <Typography variant="subtitle1" color="textPrimary">
+    No Accounts. Click Add account to add one.
+  </Typography>
+);
 
 class Accounts extends Component {
   componentDidMount() {
@@ -68,7 +74,6 @@ class Accounts extends Component {
 
   render() {
     let accounts = this.props.accounts ? this.props.accounts : [];
-
     return (
       <React.Fragment>
         <Helmet title="Accounts" />
@@ -102,6 +107,7 @@ class Accounts extends Component {
               </AccountPaper>
             </Grid>
           ))}
+          <NoAccounts />
         </Grid>
       </React.Fragment>
     );
