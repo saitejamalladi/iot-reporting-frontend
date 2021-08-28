@@ -11,7 +11,7 @@ import {
   Paper as MuiPaper,
   Table,
   TableBody,
-  TableCell,
+  TableCell as MuiTableCell,
   TableContainer,
   TableHead,
   TableRow,
@@ -19,6 +19,8 @@ import {
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
+
+import moment from "moment";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -30,7 +32,173 @@ const CustomTableRow = styled(TableRow)`
   }
 `;
 
+const TableCell = styled(MuiTableCell)`
+  padding: 10px 10px;
+`;
+
+let resData = {
+  daily_data: [
+    {
+      location: "Canteen",
+      report_date: "2021-08-21",
+      total_weight: 0.69,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-21",
+      total_weight: 0.48,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-21",
+      total_weight: 0.21,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-22",
+      total_weight: 0.29,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-22",
+      total_weight: 1.53,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-22",
+      total_weight: 0.23,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-23",
+      total_weight: 0.85,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-23",
+      total_weight: 0.21,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-23",
+      total_weight: 0.27,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-24",
+      total_weight: 0.13,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-24",
+      total_weight: 0.42,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-24",
+      total_weight: 0.32,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-25",
+      total_weight: 1.44,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-25",
+      total_weight: 0.02,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-25",
+      total_weight: 0.35,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-26",
+      total_weight: 0.93,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-26",
+      total_weight: 0.3,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-26",
+      total_weight: 0.14,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-27",
+      total_weight: 0.93,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-27",
+      total_weight: 0.08,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-27",
+      total_weight: 0.23,
+    },
+  ],
+  day_28_avg: [
+    {
+      location: "Canteen",
+      average_weight: 0.088263889,
+    },
+    {
+      location: "kitchen",
+      average_weight: 0.081904762,
+    },
+    {
+      location: "Main Floor",
+      average_weight: 0.08032967,
+    },
+  ],
+  day_7_avg: [
+    {
+      location: "Canteen",
+      average_weight: 0.083625,
+    },
+    {
+      location: "kitchen",
+      average_weight: 0.074285714,
+    },
+    {
+      location: "Main Floor",
+      average_weight: 0.081818182,
+    },
+  ],
+};
+
+function filterDayLocation(dailyData, currentDay, location) {
+  return dailyData
+    .filter(
+      (data) => data.report_date === currentDay && data.location === location
+    )
+    .map((data) => data.total_weight);
+}
+function filterLocation(avgData, location) {
+  let data = avgData.find((data) => data.location === location).average_weight;
+  return Number(data).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+  });
+}
+
 function EnhancedTable() {
+  let days = [...new Array(7)].map((i, index) =>
+    moment()
+      .subtract(7 - index, "days")
+      .format("YYYY-MM-DD")
+  );
+  let dailyData = resData.daily_data;
+  let day28Avg = resData.day_28_avg;
+  let day7Avg = resData.day_7_avg;
+  let locations = dailyData.map((data) => data.location);
+  locations = [...new Set(locations)];
   return (
     <div>
       <Paper>
@@ -49,57 +217,35 @@ function EnhancedTable() {
             </TableHead>
             <TableBody>
               <CustomTableRow hover tabIndex={-1}>
-                <TableCell align="right">Area</TableCell>
-                <TableCell align="left">Bench Mark</TableCell>
+                <TableCell align="left">Area</TableCell>
                 <TableCell align="left">28 Day Avg</TableCell>
                 <TableCell align="left">7 Day Avg</TableCell>
-                <TableCell align="left">18th Aug 21</TableCell>
-                <TableCell align="left">19th Aug 21</TableCell>
-                <TableCell align="left">20th Aug 21</TableCell>
-                <TableCell align="left">21st Aug 21</TableCell>
-                <TableCell align="left">22nd Aug 21</TableCell>
-                <TableCell align="left">23rd Aug 21</TableCell>
-                <TableCell align="left">24th Aug 21</TableCell>
+                {days.map((day) => (
+                  <TableCell key={day} align="left">
+                    {moment(day).format("DD-MM-YY")}
+                  </TableCell>
+                ))}
               </CustomTableRow>
-              <CustomTableRow hover tabIndex={-1}>
-                <TableCell align="right">Kitchen</TableCell>
-                <TableCell align="left">0.03 Kg</TableCell>
-                <TableCell align="left">0.20 Kg</TableCell>
-                <TableCell align="left">0.20 Kg</TableCell>
-                <TableCell align="left">0.09 Kg</TableCell>
-                <TableCell align="left">0.10 Kg</TableCell>
-                <TableCell align="left">0.08 Kg</TableCell>
-                <TableCell align="left">0.14 Kg</TableCell>
-                <TableCell align="left">0.07 Kg</TableCell>
-                <TableCell align="left">0.46 Kg</TableCell>
-                <TableCell align="left">0.49 Kg</TableCell>
-              </CustomTableRow>
-              <CustomTableRow hover tabIndex={-1}>
-                <TableCell align="right">Main Floor</TableCell>
-                <TableCell align="left">0.09 Kg</TableCell>
-                <TableCell align="left">1.60 Kg</TableCell>
-                <TableCell align="left">1.60 Kg</TableCell>
-                <TableCell align="left">0.11 Kg</TableCell>
-                <TableCell align="left">1.41 Kg</TableCell>
-                <TableCell align="left">0.73 Kg</TableCell>
-                <TableCell align="left">2.03 Kg</TableCell>
-                <TableCell align="left">0.98 Kg</TableCell>
-                <TableCell align="left">4.83 Kg</TableCell>
-                <TableCell align="left">1.12 Kg</TableCell>
-              </CustomTableRow>
-              <CustomTableRow hover tabIndex={-1}>
-                <TableCell align="right">Canteen</TableCell>
-                <TableCell align="left">0.09 Kg</TableCell>
-                <TableCell align="left">0.87 Kg</TableCell>
-                <TableCell align="left">0.87 Kg</TableCell>
-                <TableCell align="left">0.06 Kg</TableCell>
-                <TableCell align="left">0.53 Kg</TableCell>
-                <TableCell align="left">0.34 Kg</TableCell>
-                <TableCell align="left">0.80 Kg</TableCell>
-                <TableCell align="left">0.43 Kg</TableCell>
-                <TableCell align="left">0.53 Kg</TableCell>
-                <TableCell align="left">3.41 Kg</TableCell>
-              </CustomTableRow>
+              {locations.map((location) => (
+                <CustomTableRow hover tabIndex={-1} key={location}>
+                  <TableCell align="left">{location}</TableCell>
+                  <TableCell align="left">
+                    {filterLocation(day28Avg, location)} Kg
+                  </TableCell>
+                  <TableCell align="left">
+                    {filterLocation(day7Avg, location)} Kg
+                  </TableCell>
+                  {days.map((day) =>
+                    filterDayLocation(dailyData, day, location).map(
+                      (data, index) => (
+                        <TableCell key={index} align="left">
+                          {data} Kg
+                        </TableCell>
+                      )
+                    )
+                  )}
+                </CustomTableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

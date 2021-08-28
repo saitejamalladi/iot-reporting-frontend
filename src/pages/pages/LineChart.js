@@ -14,6 +14,7 @@ import { fade } from "@material-ui/core/styles/colorManipulator";
 import { Line } from "react-chartjs-2";
 
 import { MoreVertical } from "react-feather";
+import moment from "moment";
 
 const Card = styled(MuiCard)(spacing);
 
@@ -21,46 +22,184 @@ const ChartWrapper = styled.div`
   height: 250px;
 `;
 
+let resData = {
+  daily_data: [
+    {
+      location: "Canteen",
+      report_date: "2021-08-21",
+      total_weight: 0.69,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-21",
+      total_weight: 0.48,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-21",
+      total_weight: 0.21,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-22",
+      total_weight: 0.29,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-22",
+      total_weight: 1.53,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-22",
+      total_weight: 0.23,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-23",
+      total_weight: 0.85,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-23",
+      total_weight: 0.21,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-23",
+      total_weight: 0.27,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-24",
+      total_weight: 0.13,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-24",
+      total_weight: 0.42,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-24",
+      total_weight: 0.32,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-25",
+      total_weight: 1.44,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-25",
+      total_weight: 0.02,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-25",
+      total_weight: 0.35,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-26",
+      total_weight: 0.93,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-26",
+      total_weight: 0.3,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-26",
+      total_weight: 0.14,
+    },
+    {
+      location: "Canteen",
+      report_date: "2021-08-27",
+      total_weight: 0.93,
+    },
+    {
+      location: "Main Floor",
+      report_date: "2021-08-27",
+      total_weight: 0.08,
+    },
+    {
+      location: "kitchen",
+      report_date: "2021-08-27",
+      total_weight: 0.23,
+    },
+  ],
+  day_28_avg: [
+    {
+      location: "Canteen",
+      average_weight: 0.088263889,
+    },
+    {
+      location: "kitchen",
+      average_weight: 0.081904762,
+    },
+    {
+      location: "Main Floor",
+      average_weight: 0.08032967,
+    },
+  ],
+  day_7_avg: [
+    {
+      location: "Canteen",
+      average_weight: 0.083625,
+    },
+    {
+      location: "kitchen",
+      average_weight: 0.074285714,
+    },
+    {
+      location: "Main Floor",
+      average_weight: 0.081818182,
+    },
+  ],
+};
+
+function getDynamicColor() {
+  var r = Math.floor(Math.random() * 255);
+  var g = Math.floor(Math.random() * 255);
+  var b = Math.floor(Math.random() * 255);
+  return "rgb(" + r + "," + g + "," + b + ")";
+}
 function LineChart({ theme }) {
   const data = (canvas) => {
+    let days = [...new Array(7)].map((i, index) =>
+      moment()
+        .subtract(7 - index, "days")
+        .format("YYYY-MM-DD")
+    );
+    let dailyData = resData.daily_data;
+    let locations = dailyData.map((data) => data.location);
+    locations = [...new Set(locations)];
     const ctx = canvas.getContext("2d");
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, fade(theme.palette.secondary.main, 0.0875));
     gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
+    let tempData = locations.map((location) => {
+      return {
+        label: location,
+        fill: true,
+        backgroundColor: gradient,
+        borderColor: getDynamicColor(),
+        data: days.map(
+          (day) =>
+            dailyData.find(
+              (data) => data.location === location && data.report_date === day
+            ).total_weight
+        ),
+      };
+    });
     return {
-      labels: [
-        "18th Aug",
-        "19th Aug",
-        "20th Aug",
-        "21st Aug",
-        "22nd Aug",
-        "23rd Aug",
-        "24th Aug",
-      ],
+      labels: days.map((day) => moment(day).format("DD-MM-YYYY")),
       datasets: [
-        {
-          label: "Kitchen",
-          fill: true,
-          backgroundColor: gradient,
-          borderColor: "#90EE90",
-          data: [0.09, 0.1, 0.08, 0.14, 0.07, 0.46, 0.49],
-        },
-        {
-          label: "Main Floor",
-          fill: true,
-          backgroundColor: gradient,
-          borderColor: "#ADD8E6",
-          data: [0.11, 1.41, 0.73, 2.03, 0.98, 4.83, 1.12],
-        },
-        {
-          label: "Canteen",
-          fill: true,
-          backgroundColor: gradient,
-          borderColor: "#FF7722",
-          data: [0.06, 0.53, 0.34, 0.8, 0.43, 0.53, 3.41],
-        },
+        ...tempData,
         {
           label: "28 Day Avg",
           fill: true,
@@ -125,7 +264,6 @@ function LineChart({ theme }) {
       ],
     },
   };
-
   return (
     <Card mb={3}>
       <CardHeader
