@@ -1,4 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
+
+import { connect } from "react-redux";
+
 import styled from "styled-components/macro";
 
 import { Helmet } from "react-helmet-async";
@@ -13,6 +16,10 @@ import {
 import { People as PeopleIcon } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
+import {
+  fetchAccounts,
+  fetchChildAccounts,
+} from "../../redux/actions/scaleActions";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -50,82 +57,66 @@ const AccountCount = styled(Typography)`
   margin: ${(props) => props.theme.spacing(2)}px;
 `;
 
-let accounts = [
-  {
-    title: "Global Account",
-    count: Math.floor(11 * Math.random()),
-  },
-  {
-    title: "Country Account",
-    count: Math.floor(11 * Math.random()),
-  },
-  {
-    title: "Sector Account",
-    count: Math.floor(11 * Math.random()),
-  },
-  {
-    title: "Public Account",
-    count: Math.floor(11 * Math.random()),
-  },
-  {
-    title: "State Account",
-    count: Math.floor(11 * Math.random()),
-  },
-  {
-    title: "Site Account",
-    count: Math.floor(11 * Math.random()),
-  },
-  {
-    title: "General Manager",
-    count: Math.floor(11 * Math.random()),
-  },
-  {
-    title: "User Account",
-    count: Math.floor(11 * Math.random()),
-  },
-  {
-    title: "Scales Account",
-    count: Math.floor(11 * Math.random()),
-  },
-  {
-    title: "Sensors Account",
-    count: Math.floor(11 * Math.random()),
-  },
-];
+class Accounts extends Component {
+  componentDidMount() {
+    this.props.fetchAccounts();
+  }
 
-function AccountList() {
-  return (
-    <React.Fragment>
-      <Helmet title="Accounts" />
-      <Grid justify="space-between" container spacing={4}>
-        <Grid item>
-          <Typography variant="h3" gutterBottom display="inline">
-            Accounts
-          </Typography>
-        </Grid>
-      </Grid>
-      <Divider my={6} />
-      <Grid container spacing={4}>
-        {accounts.map((account, index) => (
-          <Grid key={index} item xs={6} sm={3}>
-            <AccountPaper>
-              <Grid container>
-                <Grid item xs={"auto"}>
-                  <AccountIcon />
-                </Grid>
-                <Grid item xs={8}>
-                  <AccountCard variant="body1">
-                    <AccountTitle variant="div">{account.title}</AccountTitle>
-                    <AccountCount variant="div">{account.count}</AccountCount>
-                  </AccountCard>
-                </Grid>
-              </Grid>
-            </AccountPaper>
+  handleAccountClick = (accountId) => {
+    this.props.fetchChildAccounts(accountId);
+  };
+
+  render() {
+    let accounts = this.props.accounts ? this.props.accounts : [];
+
+    return (
+      <React.Fragment>
+        <Helmet title="Accounts" />
+        <Grid justify="space-between" container spacing={4}>
+          <Grid item>
+            <Typography variant="h3" gutterBottom display="inline">
+              Accounts
+            </Typography>
           </Grid>
-        ))}
-      </Grid>
-    </React.Fragment>
-  );
+        </Grid>
+        <Divider my={6} />
+        <Grid container spacing={4}>
+          {accounts.map((account, index) => (
+            <Grid key={index} item xs={6} sm={3}>
+              <AccountPaper
+                onClick={() => this.handleAccountClick(account.account_id)}
+              >
+                <Grid container>
+                  <Grid item xs={"auto"}>
+                    <AccountIcon />
+                  </Grid>
+                  <Grid item xs={8}>
+                    <AccountCard variant="body1">
+                      <AccountTitle variant="div">{account.name}</AccountTitle>
+                      <AccountCount variant="div">
+                        {account.child_account}
+                      </AccountCount>
+                    </AccountCard>
+                  </Grid>
+                </Grid>
+              </AccountPaper>
+            </Grid>
+          ))}
+        </Grid>
+      </React.Fragment>
+    );
+  }
 }
 
-export default AccountList;
+const mapStateToProps = (state) => {
+  return {
+    accounts: state.scaleReducer.accounts,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchAccounts: () => dispatch(fetchAccounts()),
+    fetchChildAccounts: (accountId) => dispatch(fetchChildAccounts(accountId)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Accounts);

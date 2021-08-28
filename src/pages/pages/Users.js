@@ -3,16 +3,15 @@ import styled from "styled-components/macro";
 
 import { Helmet } from "react-helmet-async";
 
+import moment from "moment";
+
 import {
-  Box,
-  Button,
   Divider as MuiDivider,
   Grid,
-  IconButton,
   Paper as MuiPaper,
   Table,
   TableBody,
-  TableCell,
+  TableCell as MuiTableCell,
   TableContainer,
   TableHead,
   TablePagination,
@@ -21,15 +20,9 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import {
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Add as AddIcon,
-} from "@material-ui/icons";
-
 import { spacing } from "@material-ui/system";
-
-import { useHistory } from "react-router-dom";
+import { fetchUsers } from "../../redux/actions/scaleActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -41,92 +34,29 @@ const CustomTableRow = styled(TableRow)`
   }
 `;
 
-function createData(id, full_name, email_id, user_name, role, created_date) {
-  return { id, full_name, email_id, user_name, role, created_date };
-}
+const TableCell = styled(MuiTableCell)`
+  padding: 10px 10px;
+`;
 
-const rows = [
-  createData(
-    "1",
-    "Emile Alston",
-    "emile.alston@email.com",
-    "emile.alston",
-    "user",
-    "2020-01-02"
-  ),
-  createData(
-    "2",
-    "Vince Firth",
-    "vince.firth@email.com",
-    "vince.firth",
-    "admin",
-    "2020-01-04"
-  ),
-  createData(
-    "3",
-    "Ty Coker",
-    "ty.coker@email.com",
-    "ty.coker",
-    "user",
-    "2020-01-04"
-  ),
-  createData(
-    "4",
-    "Scotty Fanning",
-    "scotty.fanning@email.com",
-    "scotty.fanning",
-    "user",
-    "2020-01-08"
-  ),
-  createData(
-    "5",
-    "Francisco Jiggetts",
-    "francisco.jiggetts@email.com",
-    "francisco.jiggetts",
-    "admin",
-    "2020-01-09"
-  ),
-  createData(
-    "6",
-    "Gabriel Blizzard",
-    "gabriel.blizzard@email.com",
-    "gabriel.blizzard",
-    "admin",
-    "2020-01-14"
-  ),
-  createData(
-    "7",
-    "Harley Trivedi",
-    "harley.trivedi@email.com",
-    "harley.trivedi",
-    "user",
-    "2020-01-16"
-  ),
-  createData(
-    "8",
-    "Margarito Manigault",
-    "margarito.manigault@email.com",
-    "margarito.manigault",
-    "user",
-    "2020-01-22"
-  ),
-  createData(
-    "9",
-    "Rex Euell",
-    "rex.euell@email.com",
-    "rex.euell",
-    "user",
-    "2020-01-22"
-  ),
-  createData(
-    "10",
-    "Long Macias",
-    "long.macias@email.com",
-    "long.macias",
-    "user",
-    "2020-01-23"
-  ),
-];
+function createData(
+  id,
+  first_name,
+  last_name,
+  email,
+  username,
+  created_date,
+  address
+) {
+  return {
+    id,
+    first_name,
+    last_name,
+    email,
+    username,
+    created_date,
+    address,
+  };
+}
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -156,12 +86,12 @@ function stableSort(array, comparator) {
 
 const headCells = [
   { id: "id", alignment: "right", label: "Id" },
-  { id: "full_name", alignment: "left", label: "Full Name" },
-  { id: "email_id", alignment: "left", label: "Email Id" },
-  { id: "username", alignment: "left", label: "User Name" },
-  { id: "role", alignment: "left", label: "Role" },
+  { id: "first_name", alignment: "left", label: "First Name" },
+  { id: "last_name", alignment: "left", label: "Last Name" },
+  { id: "email", alignment: "left", label: "Email Id" },
+  { id: "username", alignment: "left", label: "username" },
   { id: "created_date", alignment: "left", label: "Created Date" },
-  { id: "actions", alignment: "left", label: "Actions" },
+  { id: "address", alignment: "left", label: "Address" },
 ];
 
 function EnhancedTableHead(props) {
@@ -225,9 +155,23 @@ function EnhancedTable() {
     setPage(0);
   };
 
+  let scaleReducer = useSelector((state) => state.scaleReducer);
+  let users = scaleReducer.users ? scaleReducer.users : [];
+
+  const rows = users.map((user, index) =>
+    createData(
+      index + 1,
+      user.first_name,
+      user.last_name,
+      user.email,
+      user.username,
+      user.created_at,
+      user.address + ", " + user.address2
+    )
+  );
+
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
   return (
     <div>
       <Paper>
@@ -257,21 +201,14 @@ function EnhancedTable() {
                       key={`${row.id}-${index}`}
                     >
                       <TableCell align="right">{row.id}</TableCell>
-                      <TableCell align="left">{row.full_name}</TableCell>
-                      <TableCell align="left">{row.email_id}</TableCell>
-                      <TableCell align="left">{row.user_name}</TableCell>
-                      <TableCell align="left">{row.role}</TableCell>
-                      <TableCell align="left">{row.created_date}</TableCell>
-                      <TableCell padding="none" align="right">
-                        <Box mr={2}>
-                          <IconButton aria-label="edit">
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton aria-label="delete">
-                            <DeleteIcon />
-                          </IconButton>
-                        </Box>
+                      <TableCell align="left">{row.first_name}</TableCell>
+                      <TableCell align="left">{row.last_name}</TableCell>
+                      <TableCell align="left">{row.email}</TableCell>
+                      <TableCell align="left">{row.username}</TableCell>
+                      <TableCell align="left">
+                        {moment(row.created_date).format("DD-MM-YYYY")}
                       </TableCell>
+                      <TableCell align="left">{row.address}</TableCell>
                     </CustomTableRow>
                   );
                 })}
@@ -296,33 +233,18 @@ function EnhancedTable() {
     </div>
   );
 }
-function UserList() {
-  const history = useHistory();
-  const handleAddUser = (event) => {
-    event.preventDefault();
-    history.push("/add-user");
-  };
+
+function UsersList() {
+  const dispatch = useDispatch();
+  dispatch(fetchUsers());
   return (
     <React.Fragment>
       <Helmet title="Users" />
       <Grid justify="space-between" container spacing={4}>
         <Grid item>
           <Typography variant="h3" gutterBottom display="inline">
-            Users
+            View Users
           </Typography>
-        </Grid>
-        <Grid item>
-          <div>
-            <Button
-              color="primary"
-              variant="contained"
-              fullWidth
-              onClick={handleAddUser}
-            >
-              <AddIcon />
-              Add user
-            </Button>
-          </div>
         </Grid>
       </Grid>
       <Divider my={6} />
@@ -335,4 +257,4 @@ function UserList() {
   );
 }
 
-export default UserList;
+export default UsersList;

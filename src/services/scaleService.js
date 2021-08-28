@@ -1,6 +1,6 @@
 import axios from "../utils/axios";
 
-export function fetchScales(token) {
+export function fetchAccounts(token) {
   return new Promise((resolve, reject) => {
     let authHeader = {
       headers: {
@@ -8,7 +8,7 @@ export function fetchScales(token) {
       },
     };
     axios
-      .get("/api/scale/all", authHeader)
+      .get("/api/account/info", authHeader)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data.res_data);
@@ -20,7 +20,46 @@ export function fetchScales(token) {
       });
   });
 }
-
+export function fetchChildAccounts(token, accountId) {
+  return new Promise((resolve, reject) => {
+    let authHeader = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios
+      .get("/api/account/child/" + accountId, authHeader)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data.res_data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+export function fetchUsers(token) {
+  return new Promise((resolve, reject) => {
+    let authHeader = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios
+      .get("/api/user/list", authHeader)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data.res_data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 export function fetchDevices(token) {
   return new Promise((resolve, reject) => {
     let authHeader = {
@@ -30,6 +69,26 @@ export function fetchDevices(token) {
     };
     axios
       .get("/api/device/list", authHeader)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data.res_data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+export function fetchScales(token) {
+  return new Promise((resolve, reject) => {
+    let authHeader = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios
+      .get("/api/scale/all", authHeader)
       .then((response) => {
         if (response.status === 200) {
           resolve(response.data.res_data);

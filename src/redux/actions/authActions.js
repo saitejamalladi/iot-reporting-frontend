@@ -37,7 +37,7 @@ export function signIn(credentials) {
         dispatch({
           type: types.AUTH_SIGN_IN_SUCCESS,
           email: response.email,
-          name: response.firstName + " " + response.lastName,
+          name: response.first_name + " " + response.last_name,
           role: "Super Admin",
         });
       })
