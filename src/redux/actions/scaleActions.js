@@ -10,6 +10,12 @@ import {
 
 import { AUTH_TOKEN } from "../../constants";
 
+export function selectedAccount(accountId) {
+  return {
+    type: types.SET_SELECTED_ACCOUNT,
+    selectedAccount: accountId,
+  };
+}
 export function addAccount(account) {
   return async (dispatch) => {
     let token = localStorage.getItem(AUTH_TOKEN);
@@ -50,6 +56,7 @@ export function fetchAccounts() {
 }
 export function fetchChildAccounts(accountId) {
   return async (dispatch) => {
+    dispatch(selectedAccount(accountId));
     let token = localStorage.getItem(AUTH_TOKEN);
     if (token) {
       return fetchChildAccountsService(token, accountId)

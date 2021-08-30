@@ -170,7 +170,7 @@ function LineChart({ theme }) {
   const data = (canvas) => {
     let days = [...new Array(7)].map((i, index) =>
       moment()
-        .subtract(7 - index, "days")
+        .subtract(7 - index + 1, "days")
         .format("YYYY-MM-DD")
     );
     let dailyData = resData.daily_data;
@@ -188,12 +188,12 @@ function LineChart({ theme }) {
         fill: true,
         backgroundColor: gradient,
         borderColor: getDynamicColor(),
-        data: days.map(
-          (day) =>
-            dailyData.find(
-              (data) => data.location === location && data.report_date === day
-            ).total_weight
-        ),
+        data: days.map((day) => {
+          let currentData = dailyData.find(
+            (data) => data.location === location && data.report_date === day
+          );
+          return currentData ? currentData.total_weight : 0;
+        }),
       };
     });
     return {

@@ -2,6 +2,11 @@ import * as types from "../../constants";
 
 export default function reducer(state = {}, actions) {
   switch (actions.type) {
+    case types.SET_SELECTED_ACCOUNT:
+      return {
+        ...state,
+        selectedAccount: actions.selectedAccount,
+      };
     case types.ACCOUNTS_FETCH_SUCCESS:
       return {
         ...state,

@@ -149,7 +149,7 @@ const viewUserRoutes = {
 
 const addAccountRoutes = {
   id: "Add Account",
-  path: "/add-account/:id",
+  path: "/add-account",
   icon: <PeopleIcon />,
   component: AddAccount,
   children: null,

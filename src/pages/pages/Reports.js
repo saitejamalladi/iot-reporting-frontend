@@ -191,7 +191,7 @@ function filterLocation(avgData, location) {
 function EnhancedTable() {
   let days = [...new Array(7)].map((i, index) =>
     moment()
-      .subtract(7 - index, "days")
+      .subtract(7 - index + 1, "days")
       .format("YYYY-MM-DD")
   );
   let dailyData = resData.daily_data;

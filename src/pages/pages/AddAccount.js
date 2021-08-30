@@ -24,8 +24,8 @@ import { Alert as MuiAlert } from "@material-ui/lab";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addAccount } from "../../redux/actions/scaleActions";
+// import { useDispatch } from "react-redux";
+// import { addAccount } from "../../redux/actions/scaleActions";
 
 const timeOut = (time) => new Promise((res) => setTimeout(res, time));
 
@@ -48,13 +48,18 @@ const validationSchema = Yup.object().shape({
 });
 
 function AccountForm() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const handleSubmit = async (
     values,
     { resetForm, setErrors, setStatus, setSubmitting }
   ) => {
     try {
-      dispatch(addAccount());
+      // let accountForm = {
+      //   company_id: "string",
+      //   name: "Australia",
+      //   parent_account:
+      // };
+      // dispatch(addAccount());
       await timeOut(1500);
       resetForm();
       setStatus({ sent: true });
@@ -140,7 +145,6 @@ function AddAccount({ match }) {
     event.preventDefault();
     history.push("/");
   };
-  console.log(match.params.id);
   return (
     <React.Fragment>
       <Helmet title="Accounts" />

@@ -7,9 +7,11 @@ import styled from "styled-components/macro";
 import { Helmet } from "react-helmet-async";
 
 import {
+  Breadcrumbs as MuiBreadcrumbs,
   Button,
   Divider as MuiDivider,
   Grid,
+  Link,
   Paper as MuiPaper,
   Typography,
 } from "@material-ui/core";
@@ -21,9 +23,11 @@ import {
   fetchAccounts,
   fetchChildAccounts,
 } from "../../redux/actions/scaleActions";
-import { withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 
 const Divider = styled(MuiDivider)(spacing);
+
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
 const Paper = styled(MuiPaper)(spacing);
 
@@ -70,8 +74,8 @@ class Accounts extends Component {
     this.props.fetchAccounts();
   }
 
-  handleAddAccount = (parentAccount) => {
-    this.props.history.push("/add-account/", parentAccount);
+  handleAddAccount = () => {
+    this.props.history.push("/add-account");
   };
   handleViewAccount = (accountId) => {
     this.props.fetchChildAccounts(accountId);
@@ -79,6 +83,7 @@ class Accounts extends Component {
 
   render() {
     let accounts = this.props.accounts ? this.props.accounts : [];
+    let selectedAccount = this.props.selectedAccount;
     return (
       <React.Fragment>
         <Helmet title="Accounts" />
@@ -102,6 +107,12 @@ class Accounts extends Component {
             </div>
           </Grid>
         </Grid>
+        <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+          <Link component={NavLink} exact to="/">
+            Account
+          </Link>
+          <Typography>{selectedAccount}</Typography>
+        </Breadcrumbs>
         <Divider my={6} />
         <Grid container spacing={4}>
           {accounts.map((account, index) => (
@@ -135,6 +146,7 @@ class Accounts extends Component {
 const mapStateToProps = (state) => {
   return {
     accounts: state.scaleReducer.accounts,
+    selectedAccount: state.scaleReducer.selectedAccount,
   };
 };
 const mapDispatchToProps = (dispatch) => {

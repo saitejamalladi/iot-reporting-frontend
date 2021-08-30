@@ -16,7 +16,7 @@ export function authInit() {
           dispatch({
             type: types.AUTH_SIGN_IN_SUCCESS,
             email: response.email,
-            name: response.firstName + " " + response.lastName,
+            name: response.first_name + " " + response.last_name,
             role: "Super Admin",
           });
         })
@@ -39,6 +39,12 @@ export function signIn(credentials) {
           email: response.email,
           name: response.first_name + " " + response.last_name,
           role: "Super Admin",
+        });
+        console.log("response.account_id");
+        console.log(response.account_id);
+        dispatch({
+          type: types.SET_SELECTED_ACCOUNT,
+          selectedAccount: response.account_id,
         });
       })
       .catch((error) => {
