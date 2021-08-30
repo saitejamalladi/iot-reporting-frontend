@@ -8,22 +8,39 @@ import { Helmet } from "react-helmet-async";
 
 import {
   Breadcrumbs as MuiBreadcrumbs,
-  Button,
-  Divider as MuiDivider,
-  Grid,
   Link,
   Paper as MuiPaper,
+  Box,
+  Button as MuiButton,
+  Card as MuiCard,
+  CardContent,
+  CircularProgress,
+  Divider as MuiDivider,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid as MuiGrid,
+  TextField,
   Typography,
 } from "@material-ui/core";
 
 import { Add as AddIcon, People as PeopleIcon } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
+
 import {
   fetchAccounts,
   fetchChildAccounts,
 } from "../../redux/actions/scaleActions";
 import { NavLink, withRouter } from "react-router-dom";
+
+import { Alert as MuiAlert } from "@material-ui/lab";
+
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { addAccount } from "../../redux/actions/scaleActions";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -69,21 +86,142 @@ const NoAccounts = () => (
   </Typography>
 );
 
+const Button = styled(MuiButton)(spacing);
+
+const Card = styled(MuiCard)(spacing);
+
+const Alert = styled(MuiAlert)(spacing);
+
+const Grid = styled(MuiGrid)(spacing);
+
+const initialValues = {
+  name: "",
+};
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Required"),
+});
+
+function AccountForm() {
+  const dispatch = useDispatch();
+  const scale = useSelector((state) => state.scaleReducer);
+  let selectedAccount = scale.selectedAccount;
+  const handleSubmit = async (
+    values,
+    { resetForm, setErrors, setStatus, setSubmitting }
+  ) => {
+    try {
+      let accountForm = {
+        name: values.name,
+        parent_account: selectedAccount.account_id,
+      };
+      await dispatch(addAccount(accountForm));
+      resetForm();
+      setStatus({ sent: true });
+      setSubmitting(false);
+    } catch (error) {
+      setStatus({ sent: false });
+      setErrors({ submit: error.message });
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      {({
+        errors,
+        handleBlur,
+        handleChange,
+        handleSubmit,
+        isSubmitting,
+        touched,
+        values,
+        status,
+      }) => (
+        <Card mb={6}>
+          <CardContent>
+            <Grid container direction={"column"} spacing={6}>
+              <Grid item xs={12} sm={6}>
+                {status && status.sent && (
+                  <Alert severity="success" my={3}>
+                    Account added successfully!
+                  </Alert>
+                )}
+              </Grid>
+            </Grid>
+
+            {isSubmitting ? (
+              <Box display="flex" justifyContent="center" my={6}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <Grid container direction={"column"} spacing={4}>
+                  <Grid item md={6}>
+                    <TextField
+                      name="name"
+                      label="Account Name"
+                      aria-readonly={true}
+                      error={Boolean(touched.name && errors.name)}
+                      fullWidth
+                      helperText={touched.name && errors.name}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      my={2}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      mt={3}
+                    >
+                      Add Account
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            )}
+          </CardContent>
+        </Card>
+      )}
+    </Formik>
+  );
+}
+
 class Accounts extends Component {
+  state = {
+    open: false,
+  };
+
   componentDidMount() {
     this.props.fetchAccounts();
   }
 
-  handleAddAccount = () => {
-    this.props.history.push("/add-account");
-  };
-  handleViewAccount = (accountId) => {
-    this.props.fetchChildAccounts(accountId);
+  handleViewAccount = (account) => {
+    this.props.fetchChildAccounts(account);
   };
 
+  handleClickOpen = (selectedAccount) => {
+    if (selectedAccount) {
+      this.setState({ open: true });
+    } else {
+      alert("Select the account first");
+    }
+  };
+  handleClose = (selectedAccount) => {
+    this.setState({ open: false });
+    this.props.fetchChildAccounts(selectedAccount);
+  };
   render() {
     let accounts = this.props.accounts ? this.props.accounts : [];
     let selectedAccount = this.props.selectedAccount;
+    let selectedAccountName = selectedAccount ? selectedAccount.name : "";
     return (
       <React.Fragment>
         <Helmet title="Accounts" />
@@ -99,7 +237,7 @@ class Accounts extends Component {
                 color="primary"
                 variant="contained"
                 fullWidth
-                onClick={() => this.handleAddAccount()}
+                onClick={() => this.handleClickOpen(selectedAccount)}
               >
                 <AddIcon />
                 Add Account
@@ -111,25 +249,21 @@ class Accounts extends Component {
           <Link component={NavLink} exact to="/">
             Account
           </Link>
-          <Typography>{selectedAccount}</Typography>
+          <Typography>{selectedAccountName}</Typography>
         </Breadcrumbs>
         <Divider my={6} />
         <Grid container spacing={4}>
           {accounts.map((account, index) => (
             <Grid key={index} item xs={6} sm={3}>
-              <AccountPaper
-                onClick={() => this.handleViewAccount(account.account_id)}
-              >
+              <AccountPaper onClick={() => this.handleViewAccount(account)}>
                 <Grid container>
                   <Grid item xs={"auto"}>
                     <AccountIcon />
                   </Grid>
                   <Grid item xs={8}>
-                    <AccountCard variant="body1">
-                      <AccountTitle variant="div">{account.name}</AccountTitle>
-                      <AccountCount variant="div">
-                        {account.child_account}
-                      </AccountCount>
+                    <AccountCard>
+                      <AccountTitle>{account.name}</AccountTitle>
+                      <AccountCount>{account.child_account}</AccountCount>
                     </AccountCard>
                   </Grid>
                 </Grid>
@@ -138,6 +272,26 @@ class Accounts extends Component {
           ))}
           {accounts.length <= 0 && <NoAccounts />}
         </Grid>
+        <Dialog
+          fullWidth={true}
+          maxWidth={"sm"}
+          open={this.state.open}
+          onClose={() => this.handleClose(selectedAccount)}
+          aria-labelledby="max-width-dialog-title"
+        >
+          <DialogTitle id="max-width-dialog-title">Add Account</DialogTitle>
+          <DialogContent>
+            <AccountForm />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => this.handleClose(selectedAccount)}
+              color="primary"
+            >
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       </React.Fragment>
     );
   }
@@ -152,7 +306,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAccounts: () => dispatch(fetchAccounts()),
-    fetchChildAccounts: (accountId) => dispatch(fetchChildAccounts(accountId)),
+    fetchChildAccounts: (account) => dispatch(fetchChildAccounts(account)),
   };
 };
 export default connect(

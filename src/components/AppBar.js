@@ -12,6 +12,7 @@ import {
 import { Menu as MenuIcon } from "@material-ui/icons";
 
 import UserDropdown from "./UserDropdown";
+import AccountDisplay from "./AccountDisplay";
 
 const AppBar = styled(MuiAppBar)`
   background: ${(props) => props.theme.header.background};
@@ -29,7 +30,7 @@ const AppBarComponent = ({ onDrawerToggle }) => (
   <React.Fragment>
     <AppBar position="sticky" elevation={0}>
       <Toolbar>
-        <Grid container alignItems="center">
+        <Grid container justify={"space-between"} alignItems="center">
           <Hidden mdUp>
             <Grid item>
               <IconButton
@@ -41,7 +42,9 @@ const AppBarComponent = ({ onDrawerToggle }) => (
               </IconButton>
             </Grid>
           </Hidden>
-          <Grid item xs />
+          <Grid item xs={"auto"}>
+            <AccountDisplay />
+          </Grid>
           <Grid item>
             <UserDropdown />
           </Grid>

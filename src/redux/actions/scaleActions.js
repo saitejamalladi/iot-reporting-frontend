@@ -11,10 +11,10 @@ import {
 
 import { AUTH_TOKEN } from "../../constants";
 
-export function selectedAccount(accountId) {
+export function setSelectedAccount(selectedAccount) {
   return {
     type: types.SET_SELECTED_ACCOUNT,
-    selectedAccount: accountId,
+    selectedAccount: selectedAccount,
   };
 }
 export function addAccount(account) {
@@ -25,7 +25,7 @@ export function addAccount(account) {
         .then((response) => {
           dispatch({
             type: types.ADD_ACCOUNT_SUCCESS,
-            accounts: response,
+            message: response.display_msg,
           });
         })
         .catch((error) => {
@@ -36,10 +36,14 @@ export function addAccount(account) {
     }
   };
 }
-export function fetchAccounts() {
+export function fetchAccounts(selectedAccount) {
   return async (dispatch) => {
     let token = localStorage.getItem(AUTH_TOKEN);
     if (token) {
+      dispatch({
+        type: types.SET_SELECTED_ACCOUNT,
+        selectedAccount: selectedAccount,
+      });
       return fetchAccountsService(token)
         .then((response) => {
           dispatch({
@@ -55,12 +59,16 @@ export function fetchAccounts() {
     }
   };
 }
-export function fetchChildAccounts(accountId) {
+export function fetchChildAccounts(account) {
   return async (dispatch) => {
-    dispatch(selectedAccount(accountId));
+    let parentAccount = {
+      account_id: account.account_id,
+      name: account.name,
+    };
+    dispatch(setSelectedAccount(parentAccount));
     let token = localStorage.getItem(AUTH_TOKEN);
     if (token) {
-      return fetchChildAccountsService(token, accountId)
+      return fetchChildAccountsService(token, account.account_id)
         .then((response) => {
           dispatch({
             type: types.CHILD_ACCOUNTS_FETCH_SUCCESS,

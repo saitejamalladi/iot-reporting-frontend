@@ -25,7 +25,6 @@ import {
 
 // Account components
 import Accounts from "../pages/pages/Accounts";
-import AddAccount from "../pages/pages/AddAccount";
 
 // User components
 import AddUser from "../pages/pages/AddUser";
@@ -147,15 +146,6 @@ const viewUserRoutes = {
   ],
 };
 
-const addAccountRoutes = {
-  id: "Add Account",
-  path: "/add-account",
-  icon: <PeopleIcon />,
-  component: AddAccount,
-  children: null,
-  permittedRoles: ["Super Admin"],
-};
-
 const addUserRoutes = {
   id: "Add User",
   path: "/add-user",
@@ -224,7 +214,6 @@ const reportRoutes = {
 export const dashboardLayoutRoutes = [
   accountRoutes,
   addUserRoutes,
-  addAccountRoutes,
   viewUserRoutes,
   deviceRoutes,
   scaleRoutes,

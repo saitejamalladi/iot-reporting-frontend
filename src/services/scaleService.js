@@ -11,7 +11,7 @@ export function addAccount(token, account) {
       .post("/api/account", account, authHeader)
       .then((response) => {
         if (response.status === 200) {
-          resolve(response.data.res_data);
+          resolve(response.data);
         }
         reject(response.data);
       })

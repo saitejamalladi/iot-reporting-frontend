@@ -26,9 +26,7 @@ function UserDropdown() {
   const history = useHistory();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.authReducer);
-  const scale = useSelector((state) => state.scaleReducer);
   let user = auth.user ? auth.user : {};
-  let selectedAccount = scale.selectedAccount;
 
   const toggleMenu = (event) => {
     setAnchorMenu(event.currentTarget);
@@ -61,7 +59,6 @@ function UserDropdown() {
           onClick={toggleMenu}
           color="inherit"
         >
-          <ProfileName>{selectedAccount}</ProfileName>
           <ProfileName>{user.name}</ProfileName>
           <ProfileRole>{user.role}</ProfileRole>
         </Button>
