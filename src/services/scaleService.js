@@ -60,6 +60,26 @@ export function fetchChildAccounts(token, accountId) {
       });
   });
 }
+export function addUser(token, user) {
+  return new Promise((resolve, reject) => {
+    let authHeader = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios
+      .post("/api/user", user, authHeader)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 export function fetchUsers(token) {
   return new Promise((resolve, reject) => {
     let authHeader = {

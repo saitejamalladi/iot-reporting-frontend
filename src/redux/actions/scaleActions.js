@@ -3,6 +3,7 @@ import {
   addAccount as addAccountService,
   fetchAccounts as fetchAccountsService,
   fetchChildAccounts as fetchChildAccountsService,
+  addUser as addUserService,
   fetchUsers as fetchUsersService,
   fetchDevices as fetchDevicesService,
   fetchScales as fetchScalesService,
@@ -25,7 +26,6 @@ export function addAccount(account) {
         .then((response) => {
           dispatch({
             type: types.ADD_ACCOUNT_SUCCESS,
-            message: response.display_msg,
           });
         })
         .catch((error) => {
@@ -80,6 +80,24 @@ export function fetchChildAccounts(account) {
         });
     } else {
       return dispatch({ type: types.CHILD_ACCOUNTS_FETCH_FAILURE });
+    }
+  };
+}
+export function addUser(user) {
+  return async (dispatch) => {
+    let token = localStorage.getItem(AUTH_TOKEN);
+    if (token) {
+      return addUserService(token, user)
+        .then((response) => {
+          dispatch({
+            type: types.ADD_USER_SUCCESS,
+          });
+        })
+        .catch((error) => {
+          throw error;
+        });
+    } else {
+      return dispatch({ type: types.ADD_USER_FAILURE });
     }
   };
 }

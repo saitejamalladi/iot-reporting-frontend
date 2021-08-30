@@ -211,7 +211,7 @@ class Accounts extends Component {
     if (selectedAccount) {
       this.setState({ open: true });
     } else {
-      alert("Select the account first");
+      alert("Please select the account");
     }
   };
   handleClose = (selectedAccount) => {

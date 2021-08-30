@@ -27,17 +27,16 @@ import {
 import Accounts from "../pages/pages/Accounts";
 
 // User components
-import AddUser from "../pages/pages/AddUser";
 import Users from "../pages/pages/Users";
-
-// Report components
-import Report from "../pages/pages/Reports";
 
 // Device components
 import Devices from "../pages/pages/Devices";
 
 // Scales components
 import Scales from "../pages/pages/Scales";
+
+// Report components
+import Report from "../pages/pages/Reports";
 
 // Profile components
 const Profile = async(() => import("../pages/pages/Profile"));
@@ -146,22 +145,6 @@ const viewUserRoutes = {
   ],
 };
 
-const addUserRoutes = {
-  id: "Add User",
-  path: "/add-user",
-  icon: <PeopleIcon />,
-  component: AddUser,
-  children: null,
-  permittedRoles: [
-    "Super Admin",
-    "Global Admin",
-    "Country Admin",
-    "Sector Admin",
-    "Site Admin",
-    "General Manager",
-  ],
-};
-
 const scaleRoutes = {
   id: "Scales",
   path: "/scales",
@@ -213,7 +196,6 @@ const reportRoutes = {
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   accountRoutes,
-  addUserRoutes,
   viewUserRoutes,
   deviceRoutes,
   scaleRoutes,
