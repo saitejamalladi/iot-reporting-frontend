@@ -6,6 +6,7 @@ import {
   fetchUsers as fetchUsersService,
   fetchDevices as fetchDevicesService,
   fetchScales as fetchScalesService,
+  fetchReport as fetchReportService,
 } from "../../services/scaleService";
 
 import { AUTH_TOKEN } from "../../constants";
@@ -128,6 +129,25 @@ export function fetchScales() {
         });
     } else {
       return dispatch({ type: types.SCALES_FETCH_FAILURE });
+    }
+  };
+}
+export function fetchReport() {
+  return async (dispatch) => {
+    let token = localStorage.getItem(AUTH_TOKEN);
+    if (token) {
+      return fetchReportService(token)
+        .then((response) => {
+          dispatch({
+            type: types.REPORT_FETCH_SUCCESS,
+            reportData: response,
+          });
+        })
+        .catch((error) => {
+          throw error;
+        });
+    } else {
+      return dispatch({ type: types.REPORT_FETCH_FAILURE });
     }
   };
 }

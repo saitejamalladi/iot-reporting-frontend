@@ -15,150 +15,13 @@ import { Line } from "react-chartjs-2";
 
 import { MoreVertical } from "react-feather";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 const Card = styled(MuiCard)(spacing);
 
 const ChartWrapper = styled.div`
   height: 250px;
 `;
-
-let resData = {
-  daily_data: [
-    {
-      location: "Canteen",
-      report_date: "2021-08-21",
-      total_weight: 0.69,
-    },
-    {
-      location: "kitchen",
-      report_date: "2021-08-21",
-      total_weight: 0.48,
-    },
-    {
-      location: "Main Floor",
-      report_date: "2021-08-21",
-      total_weight: 0.21,
-    },
-    {
-      location: "kitchen",
-      report_date: "2021-08-22",
-      total_weight: 0.29,
-    },
-    {
-      location: "Canteen",
-      report_date: "2021-08-22",
-      total_weight: 1.53,
-    },
-    {
-      location: "Main Floor",
-      report_date: "2021-08-22",
-      total_weight: 0.23,
-    },
-    {
-      location: "Canteen",
-      report_date: "2021-08-23",
-      total_weight: 0.85,
-    },
-    {
-      location: "Main Floor",
-      report_date: "2021-08-23",
-      total_weight: 0.21,
-    },
-    {
-      location: "kitchen",
-      report_date: "2021-08-23",
-      total_weight: 0.27,
-    },
-    {
-      location: "kitchen",
-      report_date: "2021-08-24",
-      total_weight: 0.13,
-    },
-    {
-      location: "Main Floor",
-      report_date: "2021-08-24",
-      total_weight: 0.42,
-    },
-    {
-      location: "Canteen",
-      report_date: "2021-08-24",
-      total_weight: 0.32,
-    },
-    {
-      location: "Canteen",
-      report_date: "2021-08-25",
-      total_weight: 1.44,
-    },
-    {
-      location: "kitchen",
-      report_date: "2021-08-25",
-      total_weight: 0.02,
-    },
-    {
-      location: "Main Floor",
-      report_date: "2021-08-25",
-      total_weight: 0.35,
-    },
-    {
-      location: "Canteen",
-      report_date: "2021-08-26",
-      total_weight: 0.93,
-    },
-    {
-      location: "Main Floor",
-      report_date: "2021-08-26",
-      total_weight: 0.3,
-    },
-    {
-      location: "kitchen",
-      report_date: "2021-08-26",
-      total_weight: 0.14,
-    },
-    {
-      location: "Canteen",
-      report_date: "2021-08-27",
-      total_weight: 0.93,
-    },
-    {
-      location: "Main Floor",
-      report_date: "2021-08-27",
-      total_weight: 0.08,
-    },
-    {
-      location: "kitchen",
-      report_date: "2021-08-27",
-      total_weight: 0.23,
-    },
-  ],
-  day_28_avg: [
-    {
-      location: "Canteen",
-      average_weight: 0.088263889,
-    },
-    {
-      location: "kitchen",
-      average_weight: 0.081904762,
-    },
-    {
-      location: "Main Floor",
-      average_weight: 0.08032967,
-    },
-  ],
-  day_7_avg: [
-    {
-      location: "Canteen",
-      average_weight: 0.083625,
-    },
-    {
-      location: "kitchen",
-      average_weight: 0.074285714,
-    },
-    {
-      location: "Main Floor",
-      average_weight: 0.081818182,
-    },
-  ],
-};
 
 function getDynamicColor() {
   var r = Math.floor(Math.random() * 255);
@@ -167,13 +30,15 @@ function getDynamicColor() {
   return "rgb(" + r + "," + g + "," + b + ")";
 }
 function LineChart({ theme }) {
+  const scaleReducer = useSelector((state) => state.scaleReducer);
+  const reportData = scaleReducer.reportData;
   const data = (canvas) => {
     let days = [...new Array(7)].map((i, index) =>
       moment()
-        .subtract(7 - index + 1, "days")
+        .subtract(7 - index - 1, "days")
         .format("YYYY-MM-DD")
     );
-    let dailyData = resData.daily_data;
+    let dailyData = reportData ? reportData.daily_data : [];
     let locations = dailyData.map((data) => data.location);
     locations = [...new Set(locations)];
     const ctx = canvas.getContext("2d");
@@ -198,25 +63,7 @@ function LineChart({ theme }) {
     });
     return {
       labels: days.map((day) => moment(day).format("DD-MM-YYYY")),
-      datasets: [
-        ...tempData,
-        {
-          label: "28 Day Avg",
-          fill: true,
-          backgroundColor: "transparent",
-          borderColor: theme.palette.grey[500],
-          borderDash: [4, 4],
-          data: [1.6, 1.6, 1.6, 1.6, 1.6, 1.6, 1.6],
-        },
-        {
-          label: "28 Day Avg",
-          fill: true,
-          backgroundColor: "transparent",
-          borderColor: theme.palette.grey[500],
-          borderDash: [4, 4],
-          data: [0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8],
-        },
-      ],
+      datasets: tempData,
     };
   };
 
@@ -251,7 +98,6 @@ function LineChart({ theme }) {
       yAxes: [
         {
           ticks: {
-            stepSize: 500,
             fontColor: theme.palette.text.secondary,
           },
           display: true,

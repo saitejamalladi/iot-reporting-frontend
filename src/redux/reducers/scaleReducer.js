@@ -52,11 +52,18 @@ export default function reducer(state = {}, actions) {
         ...state,
         scales: actions.scales,
       };
-    case types.SCALES_FETCH_FAILURE:
+    case types.REPORT_FETCH_SUCCESS:
       return {
         ...state,
-        scales: [],
+        reportData: actions.reportData,
       };
+
+    case types.REPORT_FETCH_FAILURE:
+      return {
+        ...state,
+        reportData: null,
+      };
+
     default:
       return state;
   }

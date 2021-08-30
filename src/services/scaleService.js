@@ -120,3 +120,23 @@ export function fetchScales(token) {
       });
   });
 }
+export function fetchReport(token) {
+  return new Promise((resolve, reject) => {
+    let authHeader = {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios
+      .get("/api/scale/report", authHeader)
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data.res_data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

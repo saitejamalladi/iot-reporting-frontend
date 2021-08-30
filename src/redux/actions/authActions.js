@@ -19,6 +19,10 @@ export function authInit() {
             name: response.first_name + " " + response.last_name,
             role: "Super Admin",
           });
+          dispatch({
+            type: types.SET_SELECTED_ACCOUNT,
+            selectedAccount: response.account_id,
+          });
         })
         .catch((error) => {
           throw error;
